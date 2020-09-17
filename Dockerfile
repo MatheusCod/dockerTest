@@ -14,5 +14,3 @@ CMD ["/usr/sbin/init"]
 
 RUN printf "\n[Open-Power]\nname=Unicamp OpenPower Lab - $basearch\nbaseurl=https://oplab9.parqtec.unicamp.br/pub/repository/rpm/\nenabled=1\ngpgcheck=0\nrepo_gpgcheck=1\ngpgkey=https://oplab9.parqtec.unicamp.br/pub/key/openpower-gpgkey-public.asc" >> /etc/yum.repos.d/open-power.repo
 RUN yum -y update
-RUN yum -y install containerd
-RUN containerd --version
