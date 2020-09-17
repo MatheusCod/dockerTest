@@ -3,5 +3,5 @@
 mkdir docker
 mv Dockerfile docker
 cd docker
-docker build -t centos .
-docker run centos
+docker build -t centos-test .
+docker run centos-test
