@@ -7,7 +7,6 @@ services:
 
 install:
   - sudo apt-get update
-  - sudo apt-get install wget
 
 script:
   - bash docker.sh
