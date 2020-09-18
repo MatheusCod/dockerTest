@@ -1,5 +1,7 @@
 #!/bin/bash
 
+exit 1
+
 CONTAINERD="containerd"
 CONTAINERD_CRI="containerd-cri"
 CONTAINERD_CRI_CNI="containerd-cri-cni"
