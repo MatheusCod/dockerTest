@@ -17,6 +17,8 @@ TERRAFORM="terraform"
 RCLONE="rclone"
 MATCHBOX="matchbox"
 
+cd $TRAVIS_BUILD_DIR
+
 mkdir $CONTAINERD
 mkdir $CONTAINERD_CRI
 mkdir $CONTAINERD_CRI_CNI
