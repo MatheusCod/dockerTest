@@ -60,13 +60,13 @@ docker run -d $CONTAINERD-test
 cd $TRAVIS_BUILD_DIR
 
 cd $CONTAINERD_CRI
-printf "\nRUN yum -y install $CONTAINERD_CRI\nRUN $crt --version" >> Dockerfile
+printf "\nRUN yum -y install $CONTAINERD_CRI\nRUN crt --version" >> Dockerfile
 docker build -t $CONTAINERD_CRI-test -f $TRAVIS_BUILD_DIR/$CONTAINERD_CRI/Dockerfile .
 docker run -d $CONTAINERD_CRI-test
 cd $TRAVIS_BUILD_DIR
 
 cd $CONTAINERD_CRI_CNI
-printf "\nRUN yum -y install $CONTAINERD_CRI_CNI\nRUN $crt --version" >> Dockerfile
+printf "\nRUN yum -y install $CONTAINERD_CRI_CNI\nRUN crt --version" >> Dockerfile
 docker build -t $CONTAINERD_CRI_CNI-test -f $TRAVIS_BUILD_DIR/$CONTAINERD_CRI_CNI/Dockerfile .
 docker run -d $CONTAINERD_CRI_CNI-test
 cd $TRAVIS_BUILD_DIR
