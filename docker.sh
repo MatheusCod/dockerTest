@@ -100,7 +100,7 @@ docker run -d $GRAFANA_CLI-test
 cd $TRAVIS_BUILD_DIR
 
 cd $KIALI
-printf "\nRUN yum -y install $KIALI\nRUN $KIALI --version" >> Dockerfile
+printf "\nRUN yum -y install $KIALI\nRUN $KIALI --help" >> Dockerfile
 docker build -t $KIALI-test -f $TRAVIS_BUILD_DIR/$KIALI/Dockerfile .
 docker run -d $KIALI-test
 cd $TRAVIS_BUILD_DIR
@@ -118,7 +118,8 @@ docker run -d $MINIO-test
 cd $TRAVIS_BUILD_DIR
 
 cd $MINIO_MC
-printf "\nRUN yum -y install $MINIO_MC\nRUN $MINIO_MC --version" >> Dockerfile
+MINIO_MC_PACKAGE="mc"
+printf "\nRUN yum -y install $MINIO_MC_PACKAGE\nRUN $MINIO_MC_PACKAGE --version" >> Dockerfile
 docker build -t $MINIO_MC-test -f $TRAVIS_BUILD_DIR/$MINIO_MC/Dockerfile .
 docker run -d $MINIO_MC-test
 cd $TRAVIS_BUILD_DIR
