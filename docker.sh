@@ -78,13 +78,13 @@ docker run -d $BAZEL-test
 cd $TRAVIS_BUILD_DIR
 
 cd $DOCKER_CE
-printf "\nRUN yum -y install $DOCKER_CE\nRUN $docker --version" >> Dockerfile
+printf "\nRUN yum -y install $DOCKER_CE\nRUN docker --version" >> Dockerfile
 docker build -t $DOCKER_CE-test -f $TRAVIS_BUILD_DIR/$DOCKER_CE/Dockerfile .
 docker run -d $DOCKER_CE-test
 cd $TRAVIS_BUILD_DIR
 
 cd $DOCKER_CE_CLI
-printf "\nRUN yum -y install $DOCKER_CE_CLI\nRUN $docker --version" >> Dockerfile
+printf "\nRUN yum -y install $DOCKER_CE_CLI\nRUN docker --version" >> Dockerfile
 docker build -t $DOCKER_CE_CLI-test -f $TRAVIS_BUILD_DIR/$CDOCKER_CE_CLI/Dockerfile .
 docker run -d $DOCKER_CE_CLI-test
 cd $TRAVIS_BUILD_DIR
