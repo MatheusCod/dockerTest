@@ -2,7 +2,7 @@
 
 CONTAINERD="containerd"
 CONTAINERD_CRI="containerd-cri"
-CONTAINERD_CRI_CNI="containerd-cri-cli"
+CONTAINERD_CRI_CNI="containerd-cri-cni"
 BAZEL="bazel"
 DOCKER_CE="docker-ce"
 DOCKER_CE_CLI="docker-ce-cli"
@@ -58,13 +58,13 @@ docker run -d $CONTAINERD-test
 cd $TRAVIS_BUILD_DIR
 
 cd $CONTAINERD_CRI
-printf "\nRUN yum -y install $CONTAINERD_CRI\nRUN $CONTAINERD_CRI --version" >> Dockerfile
+printf "\nRUN yum -y install $CONTAINERD_CRI\nRUN $crt --version" >> Dockerfile
 docker build -t $CONTAINERD_CRI-test -f $TRAVIS_BUILD_DIR/$CONTAINERD_CRI/Dockerfile .
 docker run -d $CONTAINERD_CRI-test
 cd $TRAVIS_BUILD_DIR
 
 cd $CONTAINERD_CRI_CNI
-printf "\nRUN yum -y install $CONTAINERD_CRI_CNI\nRUN $CONTAINERD_CRI_CNI --version" >> Dockerfile
+printf "\nRUN yum -y install $CONTAINERD_CRI_CNI\nRUN $crt --version" >> Dockerfile
 docker build -t $CONTAINERD_CRI_CNI-test -f $TRAVIS_BUILD_DIR/$CONTAINERD_CRI_CNI/Dockerfile .
 docker run -d $CONTAINERD_CRI_CNI-test
 cd $TRAVIS_BUILD_DIR
@@ -76,13 +76,13 @@ docker run -d $BAZEL-test
 cd $TRAVIS_BUILD_DIR
 
 cd $DOCKER_CE
-printf "\nRUN yum -y install $DOCKER_CE\nRUN $DOCKER_CE --version" >> Dockerfile
+printf "\nRUN yum -y install $DOCKER_CE\nRUN $docker --version" >> Dockerfile
 docker build -t $DOCKER_CE-test -f $TRAVIS_BUILD_DIR/$DOCKER_CE/Dockerfile .
 docker run -d $DOCKER_CE-test
 cd $TRAVIS_BUILD_DIR
 
 cd $DOCKER_CE_CLI
-printf "\nRUN yum -y install $DOCKER_CE_CLI\nRUN $DOCKER_CE_CLI --version" >> Dockerfile
+printf "\nRUN yum -y install $DOCKER_CE_CLI\nRUN $docker --version" >> Dockerfile
 docker build -t $DOCKER_CE_CLI-test -f $TRAVIS_BUILD_DIR/$CDOCKER_CE_CLI/Dockerfile .
 docker run -d $DOCKER_CE_CLI-test
 cd $TRAVIS_BUILD_DIR
