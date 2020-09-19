@@ -60,9 +60,25 @@ docker build -t $MINIKUBE-test -f $TRAVIS_BUILD_DIR/$MINIKUBE/Dockerfile .
 {
 docker run -d $MINIKUBE-test
 } || {
-echo "AAAAAAAAAAAAAA"
+pritnf "error: $MINIKUBE" >> log_error
 }
 cd $TRAVIS_BUILD_DIR
+
+cd $RESTIC
+printf "\nRUN yum -y install $RESTIC\nRUN $RESTIC --version" >> Dockerfile
+docker build -t $RESTIC-test -f $TRAVIS_BUILD_DIR/$RESTIC/Dockerfile .
+{
+docker run -d $RESTIC-test
+} || {
+pritnf "error: $RESTIC" >> log_error
+}
+cd $TRAVIS_BUILD_DIR
+
+if [ "$(cat log_error)" != "" ]
+then
+  echo "Unsuccessful tests:"
+  cat log_error
+fi
 
 #cd $CONTAINERD
 #printf "\nRUN yum -y install $CONTAINERD" >> Dockerfile
