@@ -57,6 +57,21 @@ cp Dockerfile $TERRAFORM
 cp Dockerfile $RCLONE
 cp Dockerfile $MATCHBOX
 
+cd $MATCHBOX
+printf "\nRUN printf Package: *\nPin: origin oplab9.parqtec.unicamp.br\nPin-Priority: 900" >> /etc/apt/preferences
+printf "\nRUN apt-get -y install $MATCHBOX\nRUN $MATCHBOX --version" >> Dockerfile
+{
+  docker build -t $MATCHBOX-test -f $LOCALPATH/$MATCHBOX/Dockerfile .
+} || {
+  printf "Error in DEB package, docker build process: $MATCHBOX\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+{
+  docker run -d $MATCHBOX-test
+} || {
+  printf "Error in DEB package, docker run process: $MATCHBOX\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+cd $LOCALPATH
+
 cd $CONTAINERD
 printf "\nRUN apt-get -y install $CONTAINERD\nRUN $CONTAINERD --version" >> Dockerfile
 {
@@ -270,6 +285,7 @@ printf "\nRUN apt-get -y install $RCLONE\nRUN $RCLONE --version" >> Dockerfile
 cd $LOCALPATH
 
 cd $MATCHBOX
+printf "\nRUN printf Package: *\nPin: origin oplab9.parqtec.unicamp.br\nPin-Priority: 900" >> /etc/apt/preferences
 printf "\nRUN apt-get -y install $MATCHBOX\nRUN $MATCHBOX --version" >> Dockerfile
 {
   docker build -t $MATCHBOX-test -f $LOCALPATH/$MATCHBOX/Dockerfile .
