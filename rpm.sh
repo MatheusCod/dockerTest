@@ -22,6 +22,7 @@ mkdir rpm
 cd $LOCALPATH
 cp $TRAVIS_BUILD_DIR/Dockerfile-rpm $LOCALPATH
 mv Dockerfile-rpm Dockerfile
+ls
 
 mkdir $CONTAINERD
 mkdir $CONTAINERD_CRI
