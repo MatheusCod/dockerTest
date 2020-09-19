@@ -56,16 +56,16 @@ cp Dockerfile $MATCHBOX
 cd $MINIKUBE
 printf "\nRUN yum -y install $MINIKUBE\nRUN $MINIKUBE --version" >> Dockerfile
 docker build -t $MINIKUBE-test -f $TRAVIS_BUILD_DIR/$MINIKUBE/Dockerfile .
-#docker run -d $MINIKUBE-test
 {
-docker run -d $MINIKUBE-test
+#docker run -d $MINIKUBE-test
+wekrpojpgjpewhgqew
 } || {
 printf "error: $MINIKUBE\n" >> $TRAVIS_BUILD_DIR/log_error
 }
 cd $TRAVIS_BUILD_DIR
 
 cd $RESTIC
-printf "\nRUN yum -y install $RESTIC\nRUN $RESTIC --version" >> Dockerfile
+printf "\nRUN yum -y install $RESTIC\nRUN $RESTIC version" >> Dockerfile
 docker build -t $RESTIC-test -f $TRAVIS_BUILD_DIR/$RESTIC/Dockerfile .
 {
 docker run -d $RESTIC-test
