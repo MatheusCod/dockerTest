@@ -10,5 +10,5 @@ install:
 
 script:
   - bash rpm/rpm.sh
-  - bash deb/deb.sh
+  #- bash deb/deb.sh
   - bash log_test.sh
