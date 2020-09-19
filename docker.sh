@@ -54,7 +54,7 @@ cp Dockerfile $RCLONE
 cp Dockerfile $MATCHBOX
 
 cd $MINIKUBE
-printf "\nRUN yum -y install $MINIKUBE\nRUN $MINIKUBE version" >> Dockerfile
+printf "\nRUN yum -y install $MINIKUBE\nRUN $MINIKUBE --version" >> Dockerfile
 docker build -t $MINIKUBE-test -f $TRAVIS_BUILD_DIR/$MINIKUBE/Dockerfile .
 #docker run -d $MINIKUBE-test
 {
