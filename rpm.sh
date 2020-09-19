@@ -18,6 +18,7 @@ TERRAFORM="terraform"
 RCLONE="rclone"
 MATCHBOX="matchbox"
 
+mkdir rpm
 cd $LOCALPATH
 
 mkdir $CONTAINERD
