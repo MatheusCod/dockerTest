@@ -57,7 +57,7 @@ cd $MINIKUBE
 printf "\nRUN yum -y install $MINIKUBE\nRUN $MINIKUBE --version" >> Dockerfile
 docker build -t $MINIKUBE-test -f $TRAVIS_BUILD_DIR/$MINIKUBE/Dockerfile .
 docker run -d $MINIKUBE-test
-echo $
+echo $?
 cd $TRAVIS_BUILD_DIR
 
 cd $CONTAINERD
