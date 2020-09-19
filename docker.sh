@@ -60,7 +60,7 @@ docker build -t $MINIKUBE-test -f $TRAVIS_BUILD_DIR/$MINIKUBE/Dockerfile .
 {
 docker run -d $MINIKUBE-test
 } || {
-printf "error: $MINIKUBE" >> $TRAVIS_BUILD_DIR/log_error
+printf "error: $MINIKUBE\n" >> $TRAVIS_BUILD_DIR/log_error
 }
 cd $TRAVIS_BUILD_DIR
 
@@ -70,7 +70,7 @@ docker build -t $RESTIC-test -f $TRAVIS_BUILD_DIR/$RESTIC/Dockerfile .
 {
 docker run -d $RESTIC-test
 } || {
-printf "error: $RESTIC" >> $TRAVIS_BUILD_DIR/log_error
+printf "error: $RESTIC\n" >> $TRAVIS_BUILD_DIR/log_error
 }
 cd $TRAVIS_BUILD_DIR
 
