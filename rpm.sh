@@ -22,7 +22,6 @@ mkdir rpm
 cd $LOCALPATH
 cp $TRAVIS_BUILD_DIR/Dockerfile-rpm $LOCALPATH
 mv Dockerfile-rpm Dockerfile
-ls
 
 mkdir $CONTAINERD
 mkdir $CONTAINERD_CRI
@@ -61,7 +60,7 @@ cp Dockerfile $MATCHBOX
 cd $CONTAINERD
 printf "\nRUN yum -y install $CONTAINERD\nRUN $CONTAINERD --version" >> Dockerfile
 {
-  docker build -t $CONTAINERD-test -f $TRAVIS_BUILD_DIR/$CONTAINERD/Dockerfile .
+  docker build -t $CONTAINERD-test -f $LOCALPATH/$CONTAINERD/Dockerfile .
 } || {
   printf "Error in RPM package, docker build process: $CONTAINERD\n" >> $TRAVIS_BUILD_DIR/log_error
 }
@@ -75,7 +74,7 @@ cd $LOCALPATH
 cd $CONTAINERD_CRI
 printf "\nRUN yum -y install $CONTAINERD_CRI\nRUN $CONTAINERD --version" >> Dockerfile
 {
-  docker build -t $CONTAINERD_CRI-test -f $TRAVIS_BUILD_DIR/$CONTAINERD_CRI/Dockerfile .
+  docker build -t $CONTAINERD_CRI-test -f $LOCALPATH/$CONTAINERD_CRI/Dockerfile .
 } || {
   printf "Error in RPM package, docker build process: $CONTAINERD_CRI\n" >> $TRAVIS_BUILD_DIR/log_error
 }
@@ -89,7 +88,7 @@ cd $LOCALPATH
 cd $CONTAINERD_CRI_CNI
 printf "\nRUN yum -y install $CONTAINERD_CRI_CNI\nRUN $CONTAINERD --version" >> Dockerfile
 {
-  docker build -t $CONTAINERD_CRI_CNI-test -f $TRAVIS_BUILD_DIR/$CONTAINERD_CRI_CNI/Dockerfile .
+  docker build -t $CONTAINERD_CRI_CNI-test -f $LOCALPATH/$CONTAINERD_CRI_CNI/Dockerfile .
 } || {
   printf "Error in RPM package, docker build process: $CONTAINERD_CRI_CNI\n" >> $TRAVIS_BUILD_DIR/log_error
 }
@@ -103,7 +102,7 @@ cd $LOCALPATH
 cd $BAZEL
 printf "\nRUN yum -y install $BAZEL\nRUN $BAZEL --version" >> Dockerfile
 {
-  docker build -t $BAZEL-test -f $TRAVIS_BUILD_DIR/$BAZEL/Dockerfile .
+  docker build -t $BAZEL-test -f $LOCALPATH/$BAZEL/Dockerfile .
 } || {
   printf "Error in RPM package, docker build process: $BAZEL\n" >> $TRAVIS_BUILD_DIR/log_error
 }
@@ -117,7 +116,7 @@ cd $LOCALPATH
 cd $DOCKER_CE
 printf "\nRUN yum -y install $DOCKER_CE\nRUN docker --version" >> Dockerfile
 {
-  docker build -t $DOCKER_CE-test -f $TRAVIS_BUILD_DIR/$DOCKER_CE/Dockerfile .
+  docker build -t $DOCKER_CE-test -f $LOCALPATH/$DOCKER_CE/Dockerfile .
 } || {
   printf "Error in RPM package, docker build process: $DOCKER_CE\n" >> $TRAVIS_BUILD_DIR/log_error
 }
@@ -131,7 +130,7 @@ cd $LOCALPATH
 cd $DOCKER_CE_CLI
 printf "\nRUN yum -y install $DOCKER_CE_CLI\nRUN docker --version" >> Dockerfile
 {
-  docker build -t $DOCKER_CE_CLI-test -f $TRAVIS_BUILD_DIR/$DOCKER_CE_CLI/Dockerfile .
+  docker build -t $DOCKER_CE_CLI-test -f $LOCALPATH/$DOCKER_CE_CLI/Dockerfile .
 } || {
   printf "Error in RPM package, docker build process: $DOCKER_CE_CLI\n" >> $TRAVIS_BUILD_DIR/log_error
 }
@@ -145,7 +144,7 @@ cd $LOCALPATH
 cd $GLIDE
 printf "\nRUN yum -y install $GLIDE\nRUN $GLIDE --version" >> Dockerfile
 {
-  docker build -t $GLIDE-test -f $TRAVIS_BUILD_DIR/$GLIDE/Dockerfile .
+  docker build -t $GLIDE-test -f $LOCALPATH/$GLIDE/Dockerfile .
 } || {
   printf "Error in RPM package, docker build process: $GLIDE\n" >> $TRAVIS_BUILD_DIR/log_error
 }
@@ -159,7 +158,7 @@ cd $LOCALPATH
 cd $GRAFANA_CLI
 printf "\nRUN yum -y install $GRAFANA_CLI\nRUN $GRAFANA_CLI --version" >> Dockerfile
 {
-  docker build -t $GRAFANA_CLI-test -f $TRAVIS_BUILD_DIR/$GRAFANA_CLI/Dockerfile .
+  docker build -t $GRAFANA_CLI-test -f $LOCALPATH/$GRAFANA_CLI/Dockerfile .
 } || {
   printf "Error in RPM package, docker build process: $GRAFANA_CLI\n" >> $TRAVIS_BUILD_DIR/log_error
 }
@@ -173,7 +172,7 @@ cd $LOCALPATH
 cd $KIALI
 printf "\nRUN yum -y install $KIALI\nRUN $KIALI" >> Dockerfile
 {
-  docker build -t $KIALI-test -f $TRAVIS_BUILD_DIR/$KIALI/Dockerfile .
+  docker build -t $KIALI-test -f $LOCALPATH/$KIALI/Dockerfile .
 } || {
   printf "Error in RPM package, docker build process: $KIALI\n" >> $TRAVIS_BUILD_DIR/log_error
 }
@@ -187,7 +186,7 @@ cd $LOCALPATH
 cd $MINIKUBE
 printf "\nRUN yum -y install $MINIKUBE\nRUN $MINIKUBE version" >> Dockerfile
 {
-  docker build -t $MINIKUBE-test -f $TRAVIS_BUILD_DIR/$MINIKUBE/Dockerfile .
+  docker build -t $MINIKUBE-test -f $LOCALPATH/$MINIKUBE/Dockerfile .
 } || {
   printf "Error in RPM package, docker build process: $MINIKUBE\n" >> $TRAVIS_BUILD_DIR/log_error
 }
@@ -201,7 +200,7 @@ cd $LOCALPATH
 cd $MINIO
 printf "\nRUN yum -y install $MINIO\nRUN $MINIO --version" >> Dockerfile
 {
-  docker build -t $MINIO-test -f $TRAVIS_BUILD_DIR/$MINIO/Dockerfile .
+  docker build -t $MINIO-test -f $LOCALPATH/$MINIO/Dockerfile .
 } || {
   printf "Error in RPM package, docker build process: $MINIO\n" >> $TRAVIS_BUILD_DIR/log_error
 }
@@ -216,7 +215,7 @@ cd $MINIO_MC
 MINIO_MC_PACKAGE="mc"
 printf "\nRUN yum -y install $MINIO_MC_PACKAGE\nRUN $MINIO_MC_PACKAGE --version" >> Dockerfile
 {
-  docker build -t $MINIO_MC-test -f $TRAVIS_BUILD_DIR/$MINIO_MC/Dockerfile .
+  docker build -t $MINIO_MC-test -f $LOCALPATH/$MINIO_MC/Dockerfile .
 } || {
   printf "Error in RPM package, docker build process: $MINIO_MC\n" >> $TRAVIS_BUILD_DIR/log_error
 }
@@ -230,7 +229,7 @@ cd $LOCALPATH
 cd $RESTIC
 printf "\nRUN yum -y install $RESTIC\nRUN $RESTIC version" >> Dockerfile
 {
-  docker build -t $RESTIC-test -f $TRAVIS_BUILD_DIR/$RESTIC/Dockerfile .
+  docker build -t $RESTIC-test -f $LOCALPATH/$RESTIC/Dockerfile .
 } || {
   printf "Error in RPM package, docker build process: $RESTIC\n" >> $TRAVIS_BUILD_DIR/log_error
 }
@@ -244,7 +243,7 @@ cd $LOCALPATH
 cd $TERRAFORM
 printf "\nRUN yum -y install $TERRAFORM\nRUN $TERRAFORM --version" >> Dockerfile
 {
-  docker build -t $TERRAFORM-test -f $TRAVIS_BUILD_DIR/$TERRAFORM/Dockerfile .
+  docker build -t $TERRAFORM-test -f $LOCALPATH/$TERRAFORM/Dockerfile .
 } || {
   printf "Error in RPM package, docker build process: $TERRAFORM\n" >> $TRAVIS_BUILD_DIR/log_error
 }
@@ -258,7 +257,7 @@ cd $LOCALPATH
 cd $RCLONE
 printf "\nRUN yum -y install $RCLONE\nRUN $RCLONE --version" >> Dockerfile
 {
-  docker build -t $RCLONE-test -f $TRAVIS_BUILD_DIR/$RCLONE/Dockerfile .
+  docker build -t $RCLONE-test -f $LOCALPATH/$RCLONE/Dockerfile .
 } || {
   printf "Error in RPM package, docker build process: $RCLONE\n" >> $TRAVIS_BUILD_DIR/log_error
 }
@@ -272,7 +271,7 @@ cd $LOCALPATH
 cd $MATCHBOX
 printf "\nRUN yum -y install $MATCHBOX\nRUN $MATCHBOX --version" >> Dockerfile
 {
-  docker build -t $MATCHBOX-test -f $TRAVIS_BUILD_DIR/$MATCHBOX/Dockerfile .
+  docker build -t $MATCHBOX-test -f $LOCALPATH/$MATCHBOX/Dockerfile .
 } || {
   printf "Error in RPM package, docker build process: $MATCHBOX\n" >> $TRAVIS_BUILD_DIR/log_error
 }
