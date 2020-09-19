@@ -58,7 +58,7 @@ cp Dockerfile $RCLONE
 cp Dockerfile $MATCHBOX
 
 cd $RESTIC
-printf "\nRUN yum -y install $RESTIC\nRUN $RESTIC version" >> Dockerfile
+printf "\nRUN yum -y install $RESTIC\nRUN $RESTIC --version" >> Dockerfile
 {
   docker build -t $RESTIC-test -f $LOCALPATH/$RESTIC/Dockerfile .
 } || {
