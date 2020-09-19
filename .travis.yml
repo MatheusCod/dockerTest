@@ -9,4 +9,6 @@ install:
   - sudo apt-get update
 
 script:
-  - bash rpm/docker.sh
+  - bash rpm/rpm.sh
+  - bash deb/deb.sh
+  - bash log_test.sh
