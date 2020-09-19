@@ -1,7 +1,7 @@
 #!/bin/bash
 
 cd $TRAVIS_BUILD_DIR
-if [ test -f $TRAVIS_BUILD_DIR/log_error ]
+if [ -f $TRAVIS_BUILD_DIR/log_error ]
 then
   if [ "$(cat log_error)" != "" ]
   then
