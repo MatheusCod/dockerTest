@@ -57,19 +57,23 @@ cd $MINIKUBE
 printf "\nRUN yum -y install $MINIKUBE\nRUN $MINIKUBE --version" >> Dockerfile
 docker build -t $MINIKUBE-test -f $TRAVIS_BUILD_DIR/$MINIKUBE/Dockerfile .
 docker run -d $MINIKUBE-test
-echo $?
+if echo $? == 125;
+then
+exit 1
+else
+if
 cd $TRAVIS_BUILD_DIR
 
-cd $CONTAINERD
-printf "\nRUN yum -y install $CONTAINERD" >> Dockerfile
-printf "\nRUN if ajosjdiasd; then else printf '$CONTAINERD error RPM AAAAAAAAAAAAAAAAAAAAAAA' >> log_error >> Dockerfile; if" >> Dockerfile
+#cd $CONTAINERD
+#printf "\nRUN yum -y install $CONTAINERD" >> Dockerfile
+#printf "\nRUN if ajosjdiasd; then else printf '$CONTAINERD error RPM AAAAAAAAAAAAAAAAAAAAAAA' >> log_error >> Dockerfile; if" >> Dockerfile
 #printf "\nRUN $CONTAINERD -ajosjdiasd || printf '$CONTAINERD error RPM AAAAAAAAAAAAAAAAAAAAAAA' >> log_error" >> Dockerfile
-docker build -t $CONTAINERD-test -f $TRAVIS_BUILD_DIR/$CONTAINERD/Dockerfile .
-docker run -d $CONTAINERD-test
-docker cp $CONTAINERD-test:/log_error $TRAVIS_BUILD_DIR
-cat log_error >> log_error_total
-cat log_error_total
-cd $TRAVIS_BUILD_DIR
+#docker build -t $CONTAINERD-test -f $TRAVIS_BUILD_DIR/$CONTAINERD/Dockerfile .
+#docker run -d $CONTAINERD-test
+#docker cp $CONTAINERD-test:/log_error $TRAVIS_BUILD_DIR
+#cat log_error >> log_error_total
+#cat log_error_total
+#cd $TRAVIS_BUILD_DIR
 
 #cd $CONTAINERD
 #printf "\nRUN yum -y install $CONTAINERD\nRUN $CONTAINERD --version" >> Dockerfile
