@@ -60,7 +60,7 @@ docker build -t $MINIKUBE-test -f $TRAVIS_BUILD_DIR/$MINIKUBE/Dockerfile .
 {
 docker run -d $MINIKUBE-test
 } || {
-pritnf "error: $MINIKUBE" >> log_error
+printf "error: $MINIKUBE" >> log_error
 }
 cd $TRAVIS_BUILD_DIR
 
@@ -70,7 +70,7 @@ docker build -t $RESTIC-test -f $TRAVIS_BUILD_DIR/$RESTIC/Dockerfile .
 {
 docker run -d $RESTIC-test
 } || {
-pritnf "error: $RESTIC" >> log_error
+printf "error: $RESTIC" >> log_error
 }
 cd $TRAVIS_BUILD_DIR
 
@@ -78,6 +78,7 @@ if [ "$(cat log_error)" != "" ]
 then
   echo "Unsuccessful tests:"
   cat log_error
+  exit 1
 fi
 
 #cd $CONTAINERD
