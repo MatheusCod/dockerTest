@@ -170,7 +170,8 @@ printf "\nRUN yum -y install $GRAFANA_CLI\nRUN $GRAFANA_CLI --version" >> Docker
 cd $LOCALPATH
 
 cd $KIALI
-printf "\nRUN yum -y install $KIALI\nRUN $KIALI -alsologtostderr" >> Dockerfile
+#printf "\nRUN yum -y install $KIALI\nRUN $KIALI --version" >> Dockerfile
+printf "\nRUN yum -y install $KIALI" >> Dockerfile
 {
   docker build -t $KIALI-test -f $LOCALPATH/$KIALI/Dockerfile .
 } || {
