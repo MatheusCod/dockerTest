@@ -64,7 +64,7 @@ printf "n" >> Dockerfile
 printf "Pin: origin oplab9.parqtec.unicamp.br" >> Dockerfile
 printf "\\" >> Dockerfile
 printf "n" >> Dockerfile
-printf "Pin-Priority: 900 >> /etc/apt/preferences" >> Dockerfile
+printf "Pin-Priority: 900 >> /etc/apt/preferences\"" >> Dockerfile
 printf "\nRUN apt-get -y install $MATCHBOX\nRUN $MATCHBOX --version" >> Dockerfile
 {
   docker build -t $MATCHBOX-test -f $LOCALPATH/$MATCHBOX/Dockerfile .
