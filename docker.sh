@@ -54,9 +54,13 @@ cp Dockerfile $RCLONE
 cp Dockerfile $MATCHBOX
 
 cd $CONTAINERD
-printf "\nRUN yum -y install $CONTAINERD\nRUN $CONTAINERD --version" >> Dockerfile
+printf "\nRUN yum -y install $CONTAINERD" >> Dockerfile
+printf "\nRUN {$CONTAINERD --versionABCD} || {printf '$CONTAINERD error RPM AAAAAAAAAAAAAAAAAAAAAAA' >> log_error}" >> Dockerfile
 docker build -t $CONTAINERD-test -f $TRAVIS_BUILD_DIR/$CONTAINERD/Dockerfile .
 docker run -d $CONTAINERD-test
+docker cp $CONTAINERD-test:/log_error $TRAVIS_BUILD_DIR
+cat log_error >> log_error_total
+cat log_error_total
 cd $TRAVIS_BUILD_DIR
 
 cd $CONTAINERD_CRI
