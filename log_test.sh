@@ -5,7 +5,7 @@ if [test -f $TRAVIS_BUILD_DIR/log_error]
 then
   if [ "$(cat log_error)" != "" ]
   then
-    echo "Unsuccessful tests:"
+    echo "Failed tests:"
     cat log_error
     exit 1
   fi
