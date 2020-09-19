@@ -57,10 +57,8 @@ cd $MINIKUBE
 printf "\nRUN yum -y install $MINIKUBE\nRUN $MINIKUBE --version" >> Dockerfile
 docker build -t $MINIKUBE-test -f $TRAVIS_BUILD_DIR/$MINIKUBE/Dockerfile .
 docker run -d $MINIKUBE-test
-if echo $? == 125;
-then
+if echo $? == 125; then
 exit 1
-else
 if
 cd $TRAVIS_BUILD_DIR
 
