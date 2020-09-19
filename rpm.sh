@@ -57,6 +57,22 @@ cp Dockerfile $TERRAFORM
 cp Dockerfile $RCLONE
 cp Dockerfile $MATCHBOX
 
+cd $RESTIC
+printf "\nRUN yum -y install $RESTIC\nRUN $RESTIC version" >> Dockerfile
+{
+  docker build -t $RESTIC-test -f $LOCALPATH/$RESTIC/Dockerfile .
+} || {
+  printf "Error in RPM package, docker build process: $RESTIC\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+{
+  docker run -d $RESTIC-test
+} || {
+  printf "Error in RPM package, docker run process: $RESTIC\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+cd $LOCALPATH
+
+: << 'END'
+
 cd $CONTAINERD
 printf "\nRUN yum -y install $CONTAINERD\nRUN $CONTAINERD --version" >> Dockerfile
 {
