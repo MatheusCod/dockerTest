@@ -9,6 +9,6 @@ install:
   - sudo apt-get update
 
 script:
-  - bash rpm.sh
+  #- bash rpm.sh
   #- bash deb.sh
   - bash log_test.sh
