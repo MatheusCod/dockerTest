@@ -55,22 +55,15 @@ cp Dockerfile $MATCHBOX
 
 cd $MINIKUBE
 printf "\nRUN yum -y install $MINIKUBE\nRUN $MINIKUBE version" >> Dockerfile
-docker build -t $MINIKUBE-test -f $TRAVIS_BUILD_DIR/$MINIKUBE/Dockerfile .
 {
-#docker run -d $MINIKUBE-test
-wekrpojpgjpewhgqew
+  docker build -t $MINIKUBE-test -f $TRAVIS_BUILD_DIR/$MINIKUBE/Dockerfile .
 } || {
-printf "error: $MINIKUBE\n" >> $TRAVIS_BUILD_DIR/log_error
+  printf "Error in docker build: $MINIKUBE\n" >> $TRAVIS_BUILD_DIR/log_error
 }
-cd $TRAVIS_BUILD_DIR
-
-cd $RESTIC
-printf "\nRUN yum -y install $RESTIC\nRUN $RESTIC version" >> Dockerfile
-docker build -t $RESTIC-test -f $TRAVIS_BUILD_DIR/$RESTIC/Dockerfile .
 {
-docker run -d $RESTIC-test
+  docker run -d $MINIKUBE-test
 } || {
-printf "error: $RESTIC\n" >> $TRAVIS_BUILD_DIR/log_error
+  printf "Error in \"docker run\": $MINIKUBE\n" >> $TRAVIS_BUILD_DIR/log_error
 }
 cd $TRAVIS_BUILD_DIR
 
@@ -81,110 +74,234 @@ then
   exit 1
 fi
 
-#cd $CONTAINERD
-#printf "\nRUN yum -y install $CONTAINERD" >> Dockerfile
-#printf "\nRUN if ajosjdiasd; then else printf '$CONTAINERD error RPM AAAAAAAAAAAAAAAAAAAAAAA' >> log_error >> Dockerfile; if" >> Dockerfile
-#printf "\nRUN $CONTAINERD -ajosjdiasd || printf '$CONTAINERD error RPM AAAAAAAAAAAAAAAAAAAAAAA' >> log_error" >> Dockerfile
-#docker build -t $CONTAINERD-test -f $TRAVIS_BUILD_DIR/$CONTAINERD/Dockerfile .
-#docker run -d $CONTAINERD-test
-#docker cp $CONTAINERD-test:/log_error $TRAVIS_BUILD_DIR
-#cat log_error >> log_error_total
-#cat log_error_total
-#cd $TRAVIS_BUILD_DIR
+cd $CONTAINERD
+printf "\nRUN yum -y install $CONTAINERD\nRUN $CONTAINERD --version" >> Dockerfile
+{
+  docker build -t $CONTAINERD-test -f $TRAVIS_BUILD_DIR/$CONTAINERD/Dockerfile .
+} || {
+  printf "Error in \"docker build\": $CONTAINERD\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+{
+  docker run -d $CONTAINERD-test
+} || {
+  printf "Error in \"docker run\": $CONTAINERD\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+cd $TRAVIS_BUILD_DIR
 
-#cd $CONTAINERD
-#printf "\nRUN yum -y install $CONTAINERD\nRUN $CONTAINERD --version" >> Dockerfile
-#docker build -t $CONTAINERD-test -f $TRAVIS_BUILD_DIR/$CONTAINERD/Dockerfile .
-#docker run -d $CONTAINERD-test
-#cd $TRAVIS_BUILD_DIR
+cd $CONTAINERD_CRI
+printf "\nRUN yum -y install $CONTAINERD_CRI\nRUN $CONTAINERD --version" >> Dockerfile
+{
+  docker build -t $CONTAINERD_CRI-test -f $TRAVIS_BUILD_DIR/$CONTAINERD_CRI/Dockerfile .
+} || {
+  printf "Error in \"docker build\": $CONTAINERD_CRI\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+{
+  docker run -d $CONTAINERD_CRI-test
+} || {
+  printf "Error in \"docker run\": $CONTAINERD_CRI\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+cd $TRAVIS_BUILD_DIR
 
-#cd $CONTAINERD_CRI
-#printf "\nRUN yum -y install $CONTAINERD_CRI\nRUN $CONTAINERD --version" >> Dockerfile
-#docker build -t $CONTAINERD_CRI-test -f $TRAVIS_BUILD_DIR/$CONTAINERD_CRI/Dockerfile .
-#docker run -d $CONTAINERD_CRI-test
-#cd $TRAVIS_BUILD_DIR
+cd $CONTAINERD_CRI_CNI
+printf "\nRUN yum -y install $CONTAINERD_CRI_CNI\nRUN $CONTAINERD --version" >> Dockerfile
+{
+  docker build -t $CONTAINERD_CRI_CNI-test -f $TRAVIS_BUILD_DIR/$CONTAINERD_CRI_CNI/Dockerfile .
+} || {
+  printf "Error in \"docker build\": $CONTAINERD_CRI_CNI\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+{
+  docker run -d $CONTAINERD_CRI_CNI-test
+} || {
+  printf "Error in \"docker run\": $CONTAINERD_CRI_CNI\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+cd $TRAVIS_BUILD_DIR
 
-#cd $CONTAINERD_CRI_CNI
-#printf "\nRUN yum -y install $CONTAINERD_CRI_CNI\nRUN $CONTAINERD --version" >> Dockerfile
-#docker build -t $CONTAINERD_CRI_CNI-test -f $TRAVIS_BUILD_DIR/$CONTAINERD_CRI_CNI/Dockerfile .
-#docker run -d $CONTAINERD_CRI_CNI-test
-#cd $TRAVIS_BUILD_DIR
+cd $BAZEL
+printf "\nRUN yum -y install $BAZEL\nRUN $BAZEL --version" >> Dockerfile
+{
+  docker build -t $BAZEL-test -f $TRAVIS_BUILD_DIR/$BAZEL/Dockerfile .
+} || {
+  printf "Error in \"docker build\": $BAZEL\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+{
+  docker run -d $BAZEL-test
+} || {
+  printf "Error in \"docker run\": $BAZEL\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+cd $TRAVIS_BUILD_DIR
 
-#cd $BAZEL
-#printf "\nRUN yum -y install $BAZEL\nRUN $BAZEL --version" >> Dockerfile
-#docker build -t $BAZEL-test -f $TRAVIS_BUILD_DIR/$BAZEL/Dockerfile .
-#docker run -d $BAZEL-test
-#cd $TRAVIS_BUILD_DIR
+cd $DOCKER_CE
+printf "\nRUN yum -y install $DOCKER_CE\nRUN docker --version" >> Dockerfile
+{
+  docker build -t $DOCKER_CE-test -f $TRAVIS_BUILD_DIR/$DOCKER_CE/Dockerfile .
+} || {
+  printf "Error in \"docker build\": $DOCKER_CE\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+{
+  docker run -d $DOCKER_CE-test
+} || {
+  printf "Error in \"docker run\": $DOCKER_CE\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+cd $TRAVIS_BUILD_DIR
 
-#cd $DOCKER_CE
-#printf "\nRUN yum -y install $DOCKER_CE\nRUN docker --version" >> Dockerfile
-#docker build -t $DOCKER_CE-test -f $TRAVIS_BUILD_DIR/$DOCKER_CE/Dockerfile .
-#docker run -d $DOCKER_CE-test
-#cd $TRAVIS_BUILD_DIR
+cd $DOCKER_CE_CLI
+printf "\nRUN yum -y install $DOCKER_CE_CLI\nRUN docker --version" >> Dockerfile
+{
+  docker build -t $DOCKER_CE_CLI-test -f $TRAVIS_BUILD_DIR/$DOCKER_CE_CLI/Dockerfile .
+} || {
+  printf "Error in \"docker build\": $DOCKER_CE_CLI\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+{
+  docker run -d $DOCKER_CE_CLI-test
+} || {
+  printf "Error in \"docker run\": $DOCKER_CE_CLI\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+cd $TRAVIS_BUILD_DIR
 
-#cd $DOCKER_CE_CLI
-#printf "\nRUN yum -y install $DOCKER_CE_CLI\nRUN docker --version" >> Dockerfile
-#docker build -t $DOCKER_CE_CLI-test -f $TRAVIS_BUILD_DIR/$DOCKER_CE_CLI/Dockerfile .
-#docker run -d $DOCKER_CE_CLI-test
-#cd $TRAVIS_BUILD_DIR
+cd $GLIDE
+printf "\nRUN yum -y install $GLIDE\nRUN $GLIDE --version" >> Dockerfile
+{
+  docker build -t $GLIDE-test -f $TRAVIS_BUILD_DIR/$GLIDE/Dockerfile .
+} || {
+  printf "Error in \"docker build\": $GLIDE\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+{
+  docker run -d $GLIDE-test
+} || {
+  printf "Error in \"docker run\": $GLIDE\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+cd $TRAVIS_BUILD_DIR
 
-#cd $GLIDE
-#printf "\nRUN yum -y install $GLIDE\nRUN $GLIDE --version" >> Dockerfile
-#docker build -t $GLIDE-test -f $TRAVIS_BUILD_DIR/$GLIDE/Dockerfile .
-#docker run -d $GLIDE-test
-#cd $TRAVIS_BUILD_DIR
+cd $GRAFANA_CLI
+printf "\nRUN yum -y install $GRAFANA_CLI\nRUN $GRAFANA_CLI --version" >> Dockerfile
+{
+  docker build -t $GRAFANA_CLI-test -f $TRAVIS_BUILD_DIR/$GRAFANA_CLI/Dockerfile .
+} || {
+  printf "Error in \"docker build\": $GRAFANA_CLI\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+{
+  docker run -d $GRAFANA_CLI-test
+} || {
+  printf "Error in \"docker run\": $GRAFANA_CLI\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+cd $TRAVIS_BUILD_DIR
 
-#cd $GRAFANA_CLI
-#printf "\nRUN yum -y install $GRAFANA_CLI\nRUN $GRAFANA_CLI --version" >> Dockerfile
-#docker build -t $GRAFANA_CLI-test -f $TRAVIS_BUILD_DIR/$GRAFANA_CLI/Dockerfile .
-#docker run -d $GRAFANA_CLI-test
-#cd $TRAVIS_BUILD_DIR
+cd $KIALI
+printf "\nRUN yum -y install $KIALI\nRUN $KIALI --help" >> Dockerfile
+{
+  docker build -t $KIALI-test -f $TRAVIS_BUILD_DIR/$KIALI/Dockerfile .
+} || {
+  printf "Error in \"docker build\": $KIALI\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+{
+  docker run -d $KIALI-test
+} || {
+  printf "Error in \"docker run\": $KIALI\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+cd $TRAVIS_BUILD_DIR
 
-#cd $KIALI
-#printf "\nRUN yum -y install $KIALI\nRUN $KIALI --help" >> Dockerfile
-#docker build -t $KIALI-test -f $TRAVIS_BUILD_DIR/$KIALI/Dockerfile .
-#docker run -d $KIALI-test
-#cd $TRAVIS_BUILD_DIR
+cd $MINIKUBE
+printf "\nRUN yum -y install $MINIKUBE\nRUN $MINIKUBE version" >> Dockerfile
+{
+  docker build -t $MINIKUBE-test -f $TRAVIS_BUILD_DIR/$MINIKUBE/Dockerfile .
+} || {
+  printf "Error in docker build: $MINIKUBE\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+{
+  docker run -d $MINIKUBE-test
+} || {
+  printf "Error in docker run: $MINIKUBE\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+cd $TRAVIS_BUILD_DIR
 
-#cd $MINIKUBE
-#printf "\nRUN yum -y install $MINIKUBE\nRUN $MINIKUBE version" >> Dockerfile
-#docker build -t $MINIKUBE-test -f $TRAVIS_BUILD_DIR/$MINIKUBE/Dockerfile .
-#docker run -d $MINIKUBE-test
-#cd $TRAVIS_BUILD_DIR
+cd $MINIO
+printf "\nRUN yum -y install $MINIO\nRUN $MINIO --version" >> Dockerfile
+{
+  docker build -t $MINIO-test -f $TRAVIS_BUILD_DIR/$MINIO/Dockerfile .
+} || {
+  printf "Error in \"docker build\": $MINIO\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+{
+  docker run -d $MINIO-test
+} || {
+  printf "Error in \"docker run\": $MINIO\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+cd $TRAVIS_BUILD_DIR
 
-#cd $MINIO
-#printf "\nRUN yum -y install $MINIO\nRUN $MINIO --version" >> Dockerfile
-#docker build -t $MINIO-test -f $TRAVIS_BUILD_DIR/$MINIO/Dockerfile .
-#docker run -d $MINIO-test
-#cd $TRAVIS_BUILD_DIR
+cd $MINIO_MC
+MINIO_MC_PACKAGE="mc"
+printf "\nRUN yum -y install $MINIO_MC_PACKAGE\nRUN $MINIO_MC_PACKAGE --version" >> Dockerfile
+{
+  docker build -t $MINIO_MC-test -f $TRAVIS_BUILD_DIR/$MINIO_MC/Dockerfile .
+} || {
+  printf "Error in \"docker build\": $MINIO_MC\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+{
+  docker run -d $MINIO_MC-test
+} || {
+  printf "Error in \"docker run\": $MINIO_MC\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+cd $TRAVIS_BUILD_DIR
 
-#cd $MINIO_MC
-#MINIO_MC_PACKAGE="mc"
-#printf "\nRUN yum -y install $MINIO_MC_PACKAGE\nRUN $MINIO_MC_PACKAGE --version" >> Dockerfile
-#docker build -t $MINIO_MC-test -f $TRAVIS_BUILD_DIR/$MINIO_MC/Dockerfile .
-#docker run -d $MINIO_MC-test
-#cd $TRAVIS_BUILD_DIR
+cd $RESTIC
+printf "\nRUN yum -y install $RESTIC\nRUN $RESTIC version" >> Dockerfile
+{
+  docker build -t $RESTIC-test -f $TRAVIS_BUILD_DIR/$RESTIC/Dockerfile .
+} || {
+  printf "Error in \"docker build\": $RESTIC\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+{
+  docker run -d $RESTIC-test
+} || {
+  printf "Error in \"docker run\": $RESTIC\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+cd $TRAVIS_BUILD_DIR
 
-#cd $RESTIC
-#printf "\nRUN yum -y install $RESTIC\nRUN $RESTIC version" >> Dockerfile
-#docker build -t $RESTIC-test -f $TRAVIS_BUILD_DIR/$RESTIC/Dockerfile .
-#docker run -d $RESTIC-test
-#cd $TRAVIS_BUILD_DIR
+cd $TERRAFORM
+printf "\nRUN yum -y install $TERRAFORM\nRUN $TERRAFORM --version" >> Dockerfile
+{
+  docker build -t $TERRAFORM-test -f $TRAVIS_BUILD_DIR/$TERRAFORM/Dockerfile .
+} || {
+  printf "Error in \"docker build\": $TERRAFORM\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+{
+  docker run -d $TERRAFORM-test
+} || {
+  printf "Error in \"docker run\": $TERRAFORM\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+cd $TRAVIS_BUILD_DIR
 
-#cd $TERRAFORM
-#printf "\nRUN yum -y install $TERRAFORM\nRUN $TERRAFORM --version" >> Dockerfile
-#docker build -t $TERRAFORM-test -f $TRAVIS_BUILD_DIR/$TERRAFORM/Dockerfile .
-#docker run -d $TERRAFORM-test
-#cd $TRAVIS_BUILD_DIR
+cd $RCLONE
+printf "\nRUN yum -y install $RCLONE\nRUN $RCLONE --version" >> Dockerfile
+{
+  docker build -t $RCLONE-test -f $TRAVIS_BUILD_DIR/$RCLONE/Dockerfile .
+} || {
+  printf "Error in \"docker build\": $RCLONE\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+{
+  docker run -d $RCLONE-test
+} || {
+  printf "Error in \"docker run\": $RCLONE\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+cd $TRAVIS_BUILD_DIR
 
-#cd $RCLONE
-#printf "\nRUN yum -y install $RCLONE\nRUN $RCLONE --version" >> Dockerfile
-#docker build -t $RCLONE-test -f $TRAVIS_BUILD_DIR/$RCLONE/Dockerfile .
-#docker run -d $RCLONE-test
-#cd $TRAVIS_BUILD_DIR
+cd $MATCHBOX
+printf "\nRUN yum -y install $MATCHBOX\nRUN $MATCHBOX --version" >> Dockerfile
+{
+  docker build -t $MATCHBOX-test -f $TRAVIS_BUILD_DIR/$MATCHBOX/Dockerfile .
+} || {
+  printf "Error in \"docker build\": $MATCHBOX\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+{
+  docker run -d $MATCHBOX-test
+} || {
+  printf "Error in \"docker run\": $MATCHBOX\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+cd $TRAVIS_BUILD_DIR
 
-#cd $MATCHBOX
-#printf "\nRUN yum -y install $MATCHBOX\nRUN $MATCHBOX --version" >> Dockerfile
-#docker build -t $MATCHBOX-test -f $TRAVIS_BUILD_DIR/$MATCHBOX/Dockerfile .
-#docker run -d $MATCHBOX-test
-#cd $TRAVIS_BUILD_DIR
+if [ "$(cat log_error)" != "" ]
+then
+  echo "Unsuccessful tests:"
+  cat log_error
+  exit 1
+fi
