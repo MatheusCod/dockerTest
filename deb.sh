@@ -58,7 +58,7 @@ cp Dockerfile $RCLONE
 cp Dockerfile $MATCHBOX
 
 cd $MATCHBOX
-printf "\nRUN printf Package: *\nPin: origin oplab9.parqtec.unicamp.br\nPin-Priority: 900" >> /etc/apt/preferences
+printf "\nRUN printf \"Package: *\nPin: origin oplab9.parqtec.unicamp.br\nPin-Priority: 900\" >> /etc/apt/preferences" >> Dockerfile
 printf "\nRUN apt-get -y install $MATCHBOX\nRUN $MATCHBOX --version" >> Dockerfile
 {
   docker build -t $MATCHBOX-test -f $LOCALPATH/$MATCHBOX/Dockerfile .
