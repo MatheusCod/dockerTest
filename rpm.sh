@@ -57,17 +57,18 @@ cp Dockerfile $TERRAFORM
 cp Dockerfile $RCLONE
 cp Dockerfile $MATCHBOX
 
-cd $RESTIC
-printf "\nRUN yum -y install $RESTIC\nRUN $RESTIC version" >> Dockerfile
+cd $KIALI
+printf "\nRUN yum -y install $KIALI\nRUN $KIALI --version" >> Dockerfile
+printf "\nRUN if \[ \$\? \=\= 2 \]\; then exit 0\; else exit 1\; fi" >> Dockerfile
 {
-  docker build -t $RESTIC-test -f $LOCALPATH/$RESTIC/Dockerfile .
+  docker build -t $KIALI-test -f $LOCALPATH/$KIALI/Dockerfile .
 } || {
-  printf "Error in RPM package, docker build process: $RESTIC\n" >> $TRAVIS_BUILD_DIR/log_error
+  printf "Error in RPM package, docker build process: $KIALI\n" >> $TRAVIS_BUILD_DIR/log_error
 }
 {
-  docker run -d $RESTIC-test
+  docker run -d $KIALI-test
 } || {
-  printf "Error in RPM package, docker run process: $RESTIC\n" >> $TRAVIS_BUILD_DIR/log_error
+  printf "Error in RPM package, docker run process: $KIALI\n" >> $TRAVIS_BUILD_DIR/log_error
 }
 cd $LOCALPATH
 
