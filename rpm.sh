@@ -58,7 +58,7 @@ cp Dockerfile $RCLONE
 cp Dockerfile $MATCHBOX
 
 cd $KIALI
-printf "\nRUN yum -y install $KIALI\nRUN $KIALI -logtostderr" >> Dockerfile
+printf "\nRUN yum -y install $KIALI\nRUN $KIALI -log_dir \"string\"" >> Dockerfile
 #printf "\nRUN if \[ \$\? \=\= 2 \]\; then exit 0\; else exit 1\; fi" >> Dockerfile
 {
   docker build -t $KIALI-test -f $LOCALPATH/$KIALI/Dockerfile .
