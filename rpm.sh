@@ -59,7 +59,7 @@ cp Dockerfile $MATCHBOX
 
 cd $KIALI
 printf "\nRUN yum -y install $KIALI" >> Dockerfile
-printf "\nRUN \/usr\/bin" >> Dockerfile
+printf "\nRUN cd \/usr\/bin" >> Dockerfile
 printf "\nRUN ./$KIALI --version \"string\"" >> Dockerfile
 #printf "\nRUN if \[ \$\? \=\= 2 \]\; then exit 0\; else exit 1\; fi" >> Dockerfile
 {
