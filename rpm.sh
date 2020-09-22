@@ -59,7 +59,7 @@ cp Dockerfile $MATCHBOX
 
 cd $KIALI
 printf "\nRUN yum -y install $KIALI" >> Dockerfile
-printf "\nRUN $KIALI version" >> Dockerfile
+printf "\nRUN $KIALI -config \"version\" >> Dockerfile
 #printf "\nRUN if \[ \$\? \=\= 2 \]\; then exit 0\; else exit 1\; fi" >> Dockerfile
 {
   docker build -t $KIALI-test -f $LOCALPATH/$KIALI/Dockerfile .
