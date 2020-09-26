@@ -68,7 +68,7 @@ printf "\nWORKDIR /go/src/app" >> Dockerfile
 printf "\nRUN printf \"deb https://oplab9.parqtec.unicamp.br/pub/repository/debian/ ./\" >> /etc/apt/sources.list" >> Dockerfile
 printf "\nRUN wget https://oplab9.parqtec.unicamp.br/pub/key/openpower-gpgkey-public.asc" >> Dockerfile
 printf "\nRUN apt-key add openpower-gpgkey-public.asc" >> Dockerfile
-pritnf "\nRUN apt-get update" >> Dockerfile
+printf "\nRUN apt-get update" >> Dockerfile
 printf "\nRUN apt-get -y install $GLIDE\nRUN $GLIDE --version" >> Dockerfile
 printf "\nRUN yes | glide init" >> Dockerfile
 printf "\nRUN glide update" >> Dockerfile
