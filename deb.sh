@@ -57,6 +57,35 @@ cp Dockerfile $TERRAFORM
 cp Dockerfile $RCLONE
 cp Dockerfile $MATCHBOX
 
+cd $GLIDE
+rm Dockerfile
+printf "FROM ubuntu:18.04\n" >> Dockerfile
+printf "\nENV container docker" >> Dockerfile
+printf "\nRUN apt-get update && apt-get install -y wget build-essential tar apt-utils" >> Dockerfile
+printf "\nCMD bash" >> Dockerfile
+printf "\nFROM golang:1.14" >> Dockerfile
+printf "\nWORKDIR /go/src/app" >> Dockerfile
+printf "\nRUN printf \"deb https://oplab9.parqtec.unicamp.br/pub/repository/debian/ ./\" >> /etc/apt/sources.list" >> Dockerfile
+printf "\nRUN wget https://oplab9.parqtec.unicamp.br/pub/key/openpower-gpgkey-public.asc" >> Dockerfile
+printf "\nRUN apt-key add openpower-gpgkey-public.asc" >> Dockerfile
+printf "\nRUN apt-get -y install $GLIDE\nRUN $GLIDE --version" >> Dockerfile
+printf "\nRUN yes | glide init" >> Dockerfile
+printf "\nRUN glide update" >> Dockerfile
+printf "\nRUN glide install" >> Dockerfile
+{
+  docker build -t $GLIDE-test -f $LOCALPATH/$GLIDE/Dockerfile .
+} || {
+  printf "Error in DEB package, docker build process: $GLIDE\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+{
+  docker run -d $GLIDE-test
+} || {
+  printf "Error in DEB package, docker run process: $GLIDE\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+cd $LOCALPATH
+
+: << 'END'
+
 cd $CONTAINERD
 printf "\nRUN apt-get -y install $CONTAINERD\nRUN $CONTAINERD --version" >> Dockerfile
 {
