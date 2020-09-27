@@ -59,7 +59,7 @@ cp Dockerfile $MATCHBOX
 
 cd $MINIO
 printf "\nRUN apt-get -y install $MINIO\nRUN $MINIO --version" >> Dockerfile
-printf "\nRUN minio server /data"
+printf "\nRUN minio server /data" >> Dockerfile
 {
   docker build -t $MINIO-test -f $LOCALPATH/$MINIO/Dockerfile .
 } || {
