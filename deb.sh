@@ -58,22 +58,20 @@ cp Dockerfile $TERRAFORM
 cp Dockerfile $RCLONE
 cp Dockerfile $MATCHBOX
 
-cd $TERRAFORM
-printf "\nRUN apt-get -y install $TERRAFORM\nRUN $TERRAFORM --version" >> Dockerfile
-printf "\nRUN mkdir terraform-test" >> Dockerfile
-printf "\nRUN cd terraform-test" >> Dockerfile
-printf "\nRUN printf \"\" >> main.tf" >> Dockerfile
-printf "\nRUN terraform init" >> Dockerfile
-printf "\nRUN terraform plan" >> Dockerfile
+cd $RCLONE
+printf "\nRUN apt-get -y install $RCLONE\nRUN $RCLONE --version" >> Dockerfile
+printf "\RUN mkdir rclone1 rclone2"
+printf "\nRUN rclone config create test local config_is_local true" >> Dockerfile
+printf "\nRUN rclone sync -i /home/ubuntu/rclone1 /home/ubuntu/rclone2" >> Dockerfile
 {
-  docker build -t $TERRAFORM-test -f $LOCALPATH/$TERRAFORM/Dockerfile .
+  docker build -t $RCLONE-test -f $LOCALPATH/$RCLONE/Dockerfile .
 } || {
-  printf "Error in DEB package, docker build process: $TERRAFORM\n" >> $TRAVIS_BUILD_DIR/log_error
+  printf "Error in DEB package, docker build process: $RCLONE\n" >> $TRAVIS_BUILD_DIR/log_error
 }
 {
-  docker run -d $TERRAFORM-test
+  docker run -d $RCLONE-test
 } || {
-  printf "Error in DEB package, docker run process: $TERRAFORM\n" >> $TRAVIS_BUILD_DIR/log_error
+  printf "Error in DEB package, docker run process: $RCLONE\n" >> $TRAVIS_BUILD_DIR/log_error
 }
 cd $LOCALPATH
 
@@ -134,6 +132,25 @@ printf "\nRUN yes | restic -r $PWD/restic-repo init" >> Dockerfile
   docker run -d $RESTIC-test
 } || {
   printf "Error in DEB package, docker run process: $RESTIC\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+cd $LOCALPATH
+
+cd $TERRAFORM
+printf "\nRUN apt-get -y install $TERRAFORM\nRUN $TERRAFORM --version" >> Dockerfile
+printf "\nRUN mkdir terraform-test" >> Dockerfile
+printf "\nRUN cd terraform-test" >> Dockerfile
+printf "\nRUN printf \"\" >> main.tf" >> Dockerfile
+printf "\nRUN terraform init" >> Dockerfile
+printf "\nRUN terraform plan" >> Dockerfile
+{
+  docker build -t $TERRAFORM-test -f $LOCALPATH/$TERRAFORM/Dockerfile .
+} || {
+  printf "Error in DEB package, docker build process: $TERRAFORM\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+{
+  docker run -d $TERRAFORM-test
+} || {
+  printf "Error in DEB package, docker run process: $TERRAFORM\n" >> $TRAVIS_BUILD_DIR/log_error
 }
 cd $LOCALPATH
 
