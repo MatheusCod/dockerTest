@@ -63,7 +63,8 @@ printf "\nRUN apt-get -y install $TERRAFORM\nRUN $TERRAFORM --version" >> Docker
 printf "\nRUN mkdir terraform-test" >> Dockerfile
 printf "\nRUN cd terraform-test" >> Dockerfile
 printf "\nRUN printf \"\" >> main.tf" >> Dockerfile
-printf "\nRUN terraform init"
+printf "\nRUN terraform init" >> Dockerfile
+printf "\nRUN terraform plan" >> Dockerfile
 {
   docker build -t $TERRAFORM-test -f $LOCALPATH/$TERRAFORM/Dockerfile .
 } || {
