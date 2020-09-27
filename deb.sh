@@ -13,6 +13,7 @@ KIALI="kiali"
 MINIKUBE="minikube"
 MINIO="minio"
 MINIO_MC="minio-mc"
+MINIO_MC_PACKAGE="mc"
 RESTIC="restic"
 TERRAFORM="terraform"
 RCLONE="rclone"
@@ -57,18 +58,19 @@ cp Dockerfile $TERRAFORM
 cp Dockerfile $RCLONE
 cp Dockerfile $MATCHBOX
 
-cd $MINIO
-printf "\nRUN apt-get -y install $MINIO\nRUN $MINIO --version" >> Dockerfile
-printf "\nRUN timeout --preserve-status 5 minio server /data" >> Dockerfile
+cd $MINIO_MC
+MINIO_MC_PACKAGE="mc"
+printf "\nRUN apt-get -y install $MINIO_MC_PACKAGE\nRUN $MINIO_MC_PACKAGE --version" >> Dockerfile
+printf "\RUN timeout --preserve-status 5 mc" >> Dockerfile
 {
-  docker build -t $MINIO-test -f $LOCALPATH/$MINIO/Dockerfile .
+  docker build -t $MINIO_MC-test -f $LOCALPATH/$MINIO_MC/Dockerfile .
 } || {
-  printf "Error in DEB package, docker build process: $MINIO\n" >> $TRAVIS_BUILD_DIR/log_error
+  printf "Error in DEB package, docker build process: $MINIO_MC\n" >> $TRAVIS_BUILD_DIR/log_error
 }
 {
-  docker run -d $MINIO-test
+  docker run -d $MINIO_MC-test
 } || {
-  printf "Error in DEB package, docker run process: $MINIO\n" >> $TRAVIS_BUILD_DIR/log_error
+  printf "Error in DEB package, docker run process: $MINIO_MC\n" >> $TRAVIS_BUILD_DIR/log_error
 }
 cd $LOCALPATH
 
@@ -99,6 +101,21 @@ printf "\nRUN glide install" >> Dockerfile
   docker run -d $GLIDE-test
 } || {
   printf "Error in DEB package, docker run process: $GLIDE\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+cd $LOCALPATH
+
+cd $MINIO
+printf "\nRUN apt-get -y install $MINIO\nRUN $MINIO --version" >> Dockerfile
+printf "\nRUN timeout --preserve-status 5 minio server /data" >> Dockerfile
+{
+  docker build -t $MINIO-test -f $LOCALPATH/$MINIO/Dockerfile .
+} || {
+  printf "Error in DEB package, docker build process: $MINIO\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+{
+  docker run -d $MINIO-test
+} || {
+  printf "Error in DEB package, docker run process: $MINIO\n" >> $TRAVIS_BUILD_DIR/log_error
 }
 cd $LOCALPATH
 
@@ -279,7 +296,6 @@ printf "\nRUN apt-get -y install $MINIO\nRUN $MINIO --version" >> Dockerfile
 cd $LOCALPATH
 
 cd $MINIO_MC
-MINIO_MC_PACKAGE="mc"
 printf "\nRUN apt-get -y install $MINIO_MC_PACKAGE\nRUN $MINIO_MC_PACKAGE --version" >> Dockerfile
 {
   docker build -t $MINIO_MC-test -f $LOCALPATH/$MINIO_MC/Dockerfile .
