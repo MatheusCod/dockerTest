@@ -62,7 +62,7 @@ cd $RCLONE
 printf "\nRUN apt-get -y install $RCLONE\nRUN $RCLONE --version" >> Dockerfile
 printf "\RUN mkdir rclone1 rclone2"
 printf "\nRUN rclone config create test local config_is_local true" >> Dockerfile
-printf "\nRUN rclone sync -i ./rclone1 ./rclone2" >> Dockerfile
+printf "\nRUN rclone sync -i $PWD/rclone1 $PWD/rclone2" >> Dockerfile
 {
   docker build -t $RCLONE-test -f $LOCALPATH/$RCLONE/Dockerfile .
 } || {
