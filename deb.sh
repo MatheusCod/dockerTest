@@ -60,7 +60,7 @@ cp Dockerfile $MATCHBOX
 
 cd $RESTIC
 printf "\nRUN apt-get -y install $RESTIC\nRUN $RESTIC version" >> Dockerfile
-printf "\n apt install sudo" >> Dockerfile
+#printf "\n apt install sudo" >> Dockerfile
 printf "\nRUN yes | restic -r $PWD/restic-repo init" >> Dockerfile 
 printf "\nRUN sudo yes | restic -r $PWD/restic-repo backup . " >> Dockerfile
 printf "\nRUN yes | restic -r $PWD/restic-repo snapshots" >> Dockerfile
