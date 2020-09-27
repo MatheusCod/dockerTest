@@ -58,10 +58,8 @@ cp Dockerfile $TERRAFORM
 cp Dockerfile $RCLONE
 cp Dockerfile $MATCHBOX
 
-
 cd $RESTIC
 printf "\nRUN apt-get -y install $RESTIC\nRUN $RESTIC version" >> Dockerfile
-printf "\nRUN mkdir restic-repo" >> Dockerfile
 printf "\nRUN yes | restic -r $PWD/restic-repo init" >> Dockerfile 
 printf "\nRUN yes | restic -r $PWD/restic-repo backup . " >> Dockerfile
 printf "\nRUN yes | restic -r $PWD/restic-repo snapshots" >> Dockerfile
