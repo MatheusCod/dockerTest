@@ -57,21 +57,18 @@ cp Dockerfile $TERRAFORM
 cp Dockerfile $RCLONE
 cp Dockerfile $MATCHBOX
 
-cd $MINIKUBE
-printf "\nRUN apt -y install virtualbox" >> Dockerfile
-printf "\nRUN apt -y install sudo" >> Dockerfile
-printf "\nRUN apt -y install conntrack" >> Dockerfile
-printf "\nRUN apt-get -y install $MINIKUBE\nRUN $MINIKUBE version" >> Dockerfile
-printf "\nRUN minikube start --driver=virtualbox  --memory \"2048\" --cpus 2" >> Dockerfile
+cd $MINIO
+printf "\nRUN apt-get -y install $MINIO\nRUN $MINIO --version" >> Dockerfile
+printf "\nRUN minio server /data"
 {
-  docker build -t $MINIKUBE-test -f $LOCALPATH/$MINIKUBE/Dockerfile .
+  docker build -t $MINIO-test -f $LOCALPATH/$MINIO/Dockerfile .
 } || {
-  printf "Error in DEB package, docker build process: $MINIKUBE\n" >> $TRAVIS_BUILD_DIR/log_error
+  printf "Error in DEB package, docker build process: $MINIO\n" >> $TRAVIS_BUILD_DIR/log_error
 }
 {
-  docker run -d $MINIKUBE-test
+  docker run -d $MINIO-test
 } || {
-  printf "Error in DEB package, docker run process: $MINIKUBE\n" >> $TRAVIS_BUILD_DIR/log_error
+  printf "Error in DEB package, docker run process: $MINIO\n" >> $TRAVIS_BUILD_DIR/log_error
 }
 cd $LOCALPATH
 
@@ -104,6 +101,27 @@ printf "\nRUN glide install" >> Dockerfile
   printf "Error in DEB package, docker run process: $GLIDE\n" >> $TRAVIS_BUILD_DIR/log_error
 }
 cd $LOCALPATH
+
+
+cd $MINIKUBE
+#printf "\nRUN apt -y install docker" >> Dockerfile
+#printf "\nRUN apt -y install sudo" >> Dockerfile
+#printf "\nRUN apt -y install conntrack" >> Dockerfile
+printf "\nRUN apt-get -y install $MINIKUBE\nRUN $MINIKUBE version" >> Dockerfile
+#printf "\nRUN minikube start --driver=virtualbox  --memory \"2048\" --cpus 2" >> Dockerfile
+{
+  docker build -t $MINIKUBE-test -f $LOCALPATH/$MINIKUBE/Dockerfile .
+} || {
+  printf "Error in DEB package, docker build process: $MINIKUBE\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+{
+  docker run -d $MINIKUBE-test
+} || {
+  printf "Error in DEB package, docker run process: $MINIKUBE\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+cd $LOCALPATH
+
+: << 'END'
 
 cd $CONTAINERD
 printf "\nRUN apt-get -y install $CONTAINERD\nRUN $CONTAINERD --version" >> Dockerfile
