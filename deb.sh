@@ -62,7 +62,7 @@ printf "\nRUN apt -y install docker-ce" >> Dockerfile
 printf "\nRUN apt -y install sudo" >> Dockerfile
 printf "\nRUN apt -y install conntrack" >> Dockerfile
 printf "\nRUN apt-get -y install $MINIKUBE\nRUN $MINIKUBE version" >> Dockerfile
-printf "\nRUN minikube start --driver=none" >> Dockerfile
+printf "\nRUN minikube start --driver=docker" >> Dockerfile
 {
   docker build -t $MINIKUBE-test -f $LOCALPATH/$MINIKUBE/Dockerfile .
 } || {
