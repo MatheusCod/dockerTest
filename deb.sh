@@ -58,6 +58,24 @@ cp Dockerfile $TERRAFORM
 cp Dockerfile $RCLONE
 cp Dockerfile $MATCHBOX
 
+cd $TERRAFORM
+printf "\nRUN apt-get -y install $TERRAFORM\nRUN $TERRAFORM --version" >> Dockerfile
+printf "\nRUN mkdir terraform-test" >> Dockerfile
+printf "\nRUN cd terraform-test" >> Dockerfile
+printf "\nRUN printf \"\" >> main.tf" >> Dockerfile
+printf "\nRUN terraform init"
+{
+  docker build -t $TERRAFORM-test -f $LOCALPATH/$TERRAFORM/Dockerfile .
+} || {
+  printf "Error in DEB package, docker build process: $TERRAFORM\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+{
+  docker run -d $TERRAFORM-test
+} || {
+  printf "Error in DEB package, docker run process: $TERRAFORM\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+cd $LOCALPATH
+
 cd $RESTIC
 printf "\nRUN apt-get -y install $RESTIC\nRUN $RESTIC version" >> Dockerfile
 printf "\nRUN yes | restic -r $PWD/restic-repo init" >> Dockerfile 
