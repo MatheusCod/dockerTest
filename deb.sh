@@ -85,6 +85,23 @@ printf "\nRUN glide install" >> Dockerfile
 }
 cd $LOCALPATH
 
+cd $MINIKUBE
+printf "\nRUN sudo apt -y install docker-ce" >> Dockerfile
+printf "\nRUN sudo apt -y install conntrack" >> Dockerfile
+printf "\nRUN apt-get -y install $MINIKUBE\nRUN $MINIKUBE version" >> Dockerfile
+printf "\nRUN sudo -E minikube start --driver=none" >> Dockerfile
+{
+  docker build -t $MINIKUBE-test -f $LOCALPATH/$MINIKUBE/Dockerfile .
+} || {
+  printf "Error in DEB package, docker build process: $MINIKUBE\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+{
+  docker run -d $MINIKUBE-test
+} || {
+  printf "Error in DEB package, docker run process: $MINIKUBE\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+cd $LOCALPATH
+
 : << 'END'
 
 cd $CONTAINERD
