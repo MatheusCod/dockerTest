@@ -76,23 +76,6 @@ printf "\nRUN rclone sync -i rclone1 rclone2" >> Dockerfile
 }
 cd $LOCALPATH
 
-cd $RESTIC
-printf "\nRUN apt-get -y install $RESTIC\nRUN $RESTIC version" >> Dockerfile
-printf "\nRUN yes | restic -r restic-repo init" >> Dockerfile
-printf "\nRUN yes | restic -r restic-repo backup ." >> Dockerfile
-printf "\nRUN yes | restic -r restic-repo snapshots" >> Dockerfile
-{
-  docker build -t $RESTIC-test -f $LOCALPATH/$RESTIC/Dockerfile .
-} || {
-  printf "Error in DEB package, docker build process: $RESTIC\n" >> $TRAVIS_BUILD_DIR/log_error
-}
-{
-  docker run -d $RESTIC-test
-} || {
-  printf "Error in DEB package, docker run process: $RESTIC\n" >> $TRAVIS_BUILD_DIR/log_error
-}
-cd $LOCALPATH
-
 : << 'END'
 
 cd $GLIDE
