@@ -60,8 +60,8 @@ cp Dockerfile $MATCHBOX
 
 cd $RCLONE
 printf "\nRUN apt-get -y install $RCLONE\nRUN $RCLONE --version" >> Dockerfile
-printf "\RUN mkdir rclone1" >> Dockerfile
-printf "\RUN mkdir rclone2" >> Dockerfile
+printf "\nRUN mkdir rclone1" >> Dockerfile
+printf "\nRUN mkdir rclone2" >> Dockerfile
 printf "\nRUN rclone config create test local config_is_local true" >> Dockerfile
 printf "\nRUN rclone sync -i $PWD/rclone1 $PWD/rclone2" >> Dockerfile
 {
