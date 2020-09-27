@@ -58,19 +58,24 @@ cp Dockerfile $TERRAFORM
 cp Dockerfile $RCLONE
 cp Dockerfile $MATCHBOX
 
-cd $MINIO_MC
-MINIO_MC_PACKAGE="mc"
-printf "\nRUN apt-get -y install $MINIO_MC_PACKAGE\nRUN $MINIO_MC_PACKAGE --version" >> Dockerfile
-printf "\nRUN timeout --preserve-status 5 mc" >> Dockerfile
+
+cd $RESTIC
+printf "\nRUN apt-get -y install $RESTIC\nRUN $RESTIC version" >> Dockerfile
+printf "\nRUN mkdir restic-repo" >> Dockerfile
+printf "\nRUN yes | restic -r $PWD/restic-repo init" >> Dockerfile 
+printf "\nRUN yes | restic -r $PWD/restic-repo backup . " >> Dockerfile
+printf "\nRUN yes | restic -r $PWD/restic-repo snapshots" >> Dockerfile
+printf "\nRUN yes | restic -r $PWD/restic-repo backup . " >> Dockerfile
+printf "\nRUN yes | restic -r $PWD/restic-repo snapshots" >> Dockerfile
 {
-  docker build -t $MINIO_MC-test -f $LOCALPATH/$MINIO_MC/Dockerfile .
+  docker build -t $RESTIC-test -f $LOCALPATH/$RESTIC/Dockerfile .
 } || {
-  printf "Error in DEB package, docker build process: $MINIO_MC\n" >> $TRAVIS_BUILD_DIR/log_error
+  printf "Error in DEB package, docker build process: $RESTIC\n" >> $TRAVIS_BUILD_DIR/log_error
 }
 {
-  docker run -d $MINIO_MC-test
+  docker run -d $RESTIC-test
 } || {
-  printf "Error in DEB package, docker run process: $MINIO_MC\n" >> $TRAVIS_BUILD_DIR/log_error
+  printf "Error in DEB package, docker run process: $RESTIC\n" >> $TRAVIS_BUILD_DIR/log_error
 }
 cd $LOCALPATH
 
@@ -119,6 +124,7 @@ printf "\nRUN timeout --preserve-status 5 minio server /data" >> Dockerfile
 }
 cd $LOCALPATH
 
+: << 'END'
 
 cd $MINIKUBE
 #printf "\nRUN apt -y install docker" >> Dockerfile
@@ -135,6 +141,22 @@ printf "\nRUN apt-get -y install $MINIKUBE\nRUN $MINIKUBE version" >> Dockerfile
   docker run -d $MINIKUBE-test
 } || {
   printf "Error in DEB package, docker run process: $MINIKUBE\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+cd $LOCALPATH
+
+cd $MINIO_MC
+MINIO_MC_PACKAGE="mc"
+printf "\nRUN apt-get -y install $MINIO_MC_PACKAGE\nRUN $MINIO_MC_PACKAGE --version" >> Dockerfile
+printf "\nRUN timeout --preserve-status 5 mc" >> Dockerfile
+{
+  docker build -t $MINIO_MC-test -f $LOCALPATH/$MINIO_MC/Dockerfile .
+} || {
+  printf "Error in DEB package, docker build process: $MINIO_MC\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+{
+  docker run -d $MINIO_MC-test
+} || {
+  printf "Error in DEB package, docker run process: $MINIO_MC\n" >> $TRAVIS_BUILD_DIR/log_error
 }
 cd $LOCALPATH
 
