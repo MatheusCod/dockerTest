@@ -86,10 +86,10 @@ printf "\nRUN glide install" >> Dockerfile
 cd $LOCALPATH
 
 cd $MINIKUBE
-printf "\nRUN sudo apt -y install docker-ce" >> Dockerfile
-printf "\nRUN sudo apt -y install conntrack" >> Dockerfile
+printf "\nRUN apt -y install docker-ce" >> Dockerfile
+printf "\nRUN apt -y install conntrack" >> Dockerfile
 printf "\nRUN apt-get -y install $MINIKUBE\nRUN $MINIKUBE version" >> Dockerfile
-printf "\nRUN sudo -E minikube start --driver=none" >> Dockerfile
+printf "\nRUN minikube start --driver=none" >> Dockerfile
 {
   docker build -t $MINIKUBE-test -f $LOCALPATH/$MINIKUBE/Dockerfile .
 } || {
