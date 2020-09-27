@@ -59,7 +59,7 @@ cp Dockerfile $MATCHBOX
 
 cd $MINIO
 printf "\nRUN apt-get -y install $MINIO\nRUN $MINIO --version" >> Dockerfile
-printf "\nRUN timeout 5 minio server /data" >> Dockerfile
+printf "\nRUN timeout --preserve-status 5 minio server /data" >> Dockerfile
 {
   docker build -t $MINIO-test -f $LOCALPATH/$MINIO/Dockerfile .
 } || {
