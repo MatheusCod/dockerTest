@@ -92,13 +92,13 @@ printf "repo_gpgcheck=1" >> Dockerfile
 printf "\\" >> Dockerfile
 printf "n" >> Dockerfile
 printf "gpgkey=https://oplab9.parqtec.unicamp.br/pub/key/openpower-gpgkey-public.asc\" >> /etc/yum.repos.d/open-power.repo" >> Dockerfile
-#printf "\nFROM golang:1.14" >> Dockerfile
+printf "\nFROM golang:1.14" >> Dockerfile
 #printf "\nWORKDIR /go/src/app" >> Dockerfile
 printf "\nRUN yum -y update" >> Dockerfile
-printf "\nRUN yum -y install wget" >> Dockerfile
-printf "\nRUN wget https://golang.org/dl/go1.14.9.linux-ppc64le.tar.gz" >> Dockerfile
-printf "\nRUN tar -xvf go1.14.9.linux-ppc64le.tar.gz" >> Dockerfile
-printf "\nRUN export PATH=\$PATH:\$PWD/go/bin" >> Dockerfile
+#printf "\nRUN yum -y install wget" >> Dockerfile
+#printf "\nRUN wget https://golang.org/dl/go1.14.9.linux-ppc64le.tar.gz" >> Dockerfile
+#printf "\nRUN tar -xvf go1.14.9.linux-ppc64le.tar.gz" >> Dockerfile
+#printf "\nRUN export PATH=\$PATH:\$PWD/go/bin" >> Dockerfile
 printf "\nRUN yum -y install $GLIDE\nRUN $GLIDE --version" >> Dockerfile
 printf "\nRUN yes | $GLIDE init" >> Dockerfile
 printf "\nRUN $GLIDE update" >> Dockerfile
