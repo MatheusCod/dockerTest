@@ -74,7 +74,25 @@ printf "\nVOLUME [ \"/sys/fs/cgroup\" ]" >> Dockerfile
 printf "\nCMD [\"/usr/sbin/init\"]" >> Dockerfile
 printf "\nFROM golang:1.14" >> Dockerfile
 printf "\nWORKDIR /go/src/app" >> Dockerfile
-printf "\nRUN printf \"\\n[Open-Power]\nname=Unicamp OpenPower Lab - \$basearch\\nbaseurl=https://oplab9.parqtec.unicamp.br/pub/repository/rpm/\\nenabled=1\\ngpgcheck=0\\nrepo_gpgcheck=1\\ngpgkey=https://oplab9.parqtec.unicamp.br/pub/key/openpower-gpgkey-public.asc\" >> /etc/yum.repos.d/open-power.repo" >> Dockerfile
+printf "\nRUN printf " >> Dockerfile
+printf "\\" >> Dockerfile
+printf "n" >> Dockerfile
+[Open-Power]\nname=Unicamp OpenPower Lab - \$basearch
+printf "\\" >> Dockerfile
+printf "n" >> Dockerfile
+printf "baseurl=https://oplab9.parqtec.unicamp.br/pub/repository/rpm/" >> Dockerfile
+printf "\\" >> Dockerfile
+printf "n" >> Dockerfile
+printf "enabled=1" >> Dockerfile
+printf "\\" >> Dockerfile
+printf "n" >> Dockerfile
+printf "gpgcheck=0" >> Dockerfile
+printf "\\" >> Dockerfile
+printf "n" >> Dockerfile
+printf "repo_gpgcheck=1" >> Dockerfile
+printf "\\" >> Dockerfile
+printf "n" >> Dockerfile
+printf "gpgkey=https://oplab9.parqtec.unicamp.br/pub/key/openpower-gpgkey-public.asc\" >> /etc/yum.repos.d/open-power.repo" >> Dockerfile
 printf "\nRUN yum -y update" >> Dockerfile
 printf "\nRUN yum -y install $GLIDE\nRUN $GLIDE --version" >> Dockerfile
 printf "\nRUN yes | $GLIDE init" >> Dockerfile
