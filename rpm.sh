@@ -57,24 +57,6 @@ cp Dockerfile $TERRAFORM
 cp Dockerfile $RCLONE
 cp Dockerfile $MATCHBOX
 
-cd $KIALI
-printf "\nRUN yum -y install $KIALI" >> Dockerfile
-printf "\nRUN $KIALI -config \"version\" >> Dockerfile
-#printf "\nRUN if \[ \$\? \=\= 2 \]\; then exit 0\; else exit 1\; fi" >> Dockerfile
-{
-  docker build -t $KIALI-test -f $LOCALPATH/$KIALI/Dockerfile .
-} || {
-  printf "Error in RPM package, docker build process: $KIALI\n" >> $TRAVIS_BUILD_DIR/log_error
-}
-{
-  docker run -d $KIALI-test
-} || {
-  printf "Error in RPM package, docker run process: $KIALI\n" >> $TRAVIS_BUILD_DIR/log_error
-}
-cd $LOCALPATH
-
-: << 'END'
-
 cd $CONTAINERD
 printf "\nRUN yum -y install $CONTAINERD\nRUN $CONTAINERD --version" >> Dockerfile
 {
@@ -160,7 +142,28 @@ printf "\nRUN yum -y install $DOCKER_CE_CLI\nRUN docker --version" >> Dockerfile
 cd $LOCALPATH
 
 cd $GLIDE
+rm Dockerfile
+printf "FROM centos:8" >> Dockerfile
+printf "\nENV container docker" >> Dockerfile
+printf "\nRUN (cd /lib/systemd/system/sysinit.target.wants/; \for \i \in \*\; \do [ \$i \=\= " >> Dockerfile
+printf "\nsystemd-tmpfiles-setup.service ] || rm -f \$i; done); \\" >> Dockerfile
+printf "\nrm -f /lib/systemd/system/multi-user.target.wants/*;\\" >> Dockerfile
+printf "\nrm -f /etc/systemd/system/*.wants/*;\\" >> Dockerfile
+printf "\nrm -f /lib/systemd/system/local-fs.target.wants/*; \\" >> Dockerfile
+printf "\nrm -f /lib/systemd/system/sockets.target.wants/*udev*; \\" >> Dockerfile
+printf "\nrm -f /lib/systemd/system/sockets.target.wants/*initctl*; \\" >> Dockerfile
+printf "\nrm -f /lib/systemd/system/basic.target.wants/*;\\" >> Dockerfile
+printf "\nrm -f /lib/systemd/system/anaconda.target.wants/*;" >> Dockerfile
+printf "\nVOLUME [ \"/sys/fs/cgroup\" ]" >> Dockerfile
+printf "\nCMD [\"/usr/sbin/init\"]" >> Dockerfile
+printf "\nFROM golang:1.14" >> Dockerfile
+printf "\nWORKDIR /go/src/app" >> Dockerfile
+printf "\nRUN printf \"\n[Open-Power]\nname=Unicamp OpenPower Lab - \$basearch\nbaseurl=https://oplab9.parqtec.unicamp.br/pub/repository/rpm/\nenabled=1\ngpgcheck=0\nrepo_gpgcheck=1\ngpgkey=https://oplab9.parqtec.unicamp.br/pub/key/openpower-gpgkey-public.asc" >> /etc/yum.repos.d/open-power.repo
+printf "\nRUN yum -y update" >> Dockerfile
 printf "\nRUN yum -y install $GLIDE\nRUN $GLIDE --version" >> Dockerfile
+printf "\nRUN yes | $GLIDE init" >> Dockerfile
+printf "\nRUN $GLIDE update" >> Dockerfile
+printf "\nRUN $GLIDE install" >> Dockerfile
 {
   docker build -t $GLIDE-test -f $LOCALPATH/$GLIDE/Dockerfile .
 } || {
@@ -189,7 +192,7 @@ cd $LOCALPATH
 
 cd $KIALI
 printf "\nRUN yum -y install $KIALI\nRUN $KIALI --version" >> Dockerfile
-printf "\nRUN if \[ \$\? \=\= 2 \]\; then exit 0\; else exit 1\; fi" >> Dockerfile
+#printf "\nRUN if \[ \$\? \=\= 2 \]\; then exit 0\; else exit 1\; fi" >> Dockerfile
 {
   docker build -t $KIALI-test -f $LOCALPATH/$KIALI/Dockerfile .
 } || {
@@ -203,7 +206,11 @@ printf "\nRUN if \[ \$\? \=\= 2 \]\; then exit 0\; else exit 1\; fi" >> Dockerfi
 cd $LOCALPATH
 
 cd $MINIKUBE
+#printf "\nRUN yum -y install docker" >> Dockerfile
+#printf "\nRUN yum -y install sudo" >> Dockerfile
+#printf "\nRUN yum -y install conntrack" >> Dockerfile
 printf "\nRUN yum -y install $MINIKUBE\nRUN $MINIKUBE version" >> Dockerfile
+#printf "\nRUN $MINIKUBE start --driver=virtualbox  --memory \"2048\" --cpus 2" >> Dockerfile
 {
   docker build -t $MINIKUBE-test -f $LOCALPATH/$MINIKUBE/Dockerfile .
 } || {
@@ -218,6 +225,7 @@ cd $LOCALPATH
 
 cd $MINIO
 printf "\nRUN yum -y install $MINIO\nRUN $MINIO --version" >> Dockerfile
+printf "\nRUN timeout --preserve-status 5 $MINIO server /data" >> Dockerfile
 {
   docker build -t $MINIO-test -f $LOCALPATH/$MINIO/Dockerfile .
 } || {
@@ -232,6 +240,7 @@ cd $LOCALPATH
 
 cd $MINIO_MC
 MINIO_MC_PACKAGE="mc"
+#printf "\nRUN timeout --preserve-status 5 mc" >> Dockerfile
 printf "\nRUN yum -y install $MINIO_MC_PACKAGE\nRUN $MINIO_MC_PACKAGE --version" >> Dockerfile
 {
   docker build -t $MINIO_MC-test -f $LOCALPATH/$MINIO_MC/Dockerfile .
@@ -247,6 +256,9 @@ cd $LOCALPATH
 
 cd $RESTIC
 printf "\nRUN yum -y install $RESTIC\nRUN $RESTIC version" >> Dockerfile
+#printf "\nRUN yes | $RESTIC -r restic-repo init" >> Dockerfile
+#printf "\nRUN yes | $RESTIC -r restic-repo backup ." >> Dockerfile
+#printf "\nRUN yes | $RESTIC -r restic-repo snapshots" >> Dockerfile
 {
   docker build -t $RESTIC-test -f $LOCALPATH/$RESTIC/Dockerfile .
 } || {
@@ -261,6 +273,11 @@ cd $LOCALPATH
 
 cd $TERRAFORM
 printf "\nRUN yum -y install $TERRAFORM\nRUN $TERRAFORM --version" >> Dockerfile
+printf "\nRUN mkdir terraform-test" >> Dockerfile
+printf "\nRUN cd terraform-test" >> Dockerfile
+printf "\nRUN printf \"\" >> main.tf" >> Dockerfile
+printf "\nRUN terraform init" >> Dockerfile
+printf "\nRUN terraform plan" >> Dockerfile
 {
   docker build -t $TERRAFORM-test -f $LOCALPATH/$TERRAFORM/Dockerfile .
 } || {
@@ -275,6 +292,10 @@ cd $LOCALPATH
 
 cd $RCLONE
 printf "\nRUN yum -y install $RCLONE\nRUN $RCLONE --version" >> Dockerfile
+printf "\nRUN mkdir rclone1" >> Dockerfile
+printf "\nRUN mkdir rclone2" >> Dockerfile
+printf "\nRUN rclone config create test local config_is_local true" >> Dockerfile
+printf "\nRUN rclone sync -i rclone1 rclone2" >> Dockerfile
 {
   docker build -t $RCLONE-test -f $LOCALPATH/$RCLONE/Dockerfile .
 } || {
