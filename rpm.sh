@@ -61,7 +61,7 @@ cd $GLIDE
 rm Dockerfile
 printf "FROM centos:8" >> Dockerfile
 printf "\nENV container docker" >> Dockerfile
-printf "\nRUN (cd /lib/systemd/system/sysinit.target.wants/; \for \i \in \*\; \do [ \$i \=\= \\" >> Dockerfile
+printf "\nRUN (cd /lib/systemd/system/sysinit.target.wants/; for i in *; do [ \$i == \\" >> Dockerfile
 printf "\nsystemd-tmpfiles-setup.service ] || rm -f \$i; done); \\" >> Dockerfile
 printf "\nrm -f /lib/systemd/system/multi-user.target.wants/*;\\" >> Dockerfile
 printf "\nrm -f /etc/systemd/system/*.wants/*;\\" >> Dockerfile
