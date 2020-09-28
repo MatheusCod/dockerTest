@@ -58,143 +58,6 @@ cp Dockerfile $TERRAFORM
 cp Dockerfile $RCLONE
 cp Dockerfile $MATCHBOX
 
-cd $RCLONE
-printf "\nRUN apt-get -y install $RCLONE\nRUN $RCLONE --version" >> Dockerfile
-printf "\nRUN mkdir rclone1" >> Dockerfile
-printf "\nRUN mkdir rclone2" >> Dockerfile
-printf "\nRUN rclone config create test local config_is_local true" >> Dockerfile
-printf "\nRUN rclone sync -i rclone1 rclone2" >> Dockerfile
-{
-  docker build -t $RCLONE-test -f $LOCALPATH/$RCLONE/Dockerfile .
-} || {
-  printf "Error in DEB package, docker build process: $RCLONE\n" >> $TRAVIS_BUILD_DIR/log_error
-}
-{
-  docker run -d $RCLONE-test
-} || {
-  printf "Error in DEB package, docker run process: $RCLONE\n" >> $TRAVIS_BUILD_DIR/log_error
-}
-cd $LOCALPATH
-
-: << 'END'
-
-cd $GLIDE
-rm Dockerfile
-printf "FROM ubuntu:18.04\n" >> Dockerfile
-printf "\nENV container docker" >> Dockerfile
-printf "\nRUN apt-get update && apt-get install -y wget build-essential tar apt-utils" >> Dockerfile
-printf "\nCMD bash" >> Dockerfile
-printf "\nFROM golang:1.14" >> Dockerfile
-printf "\nWORKDIR /go/src/app" >> Dockerfile
-printf "\nRUN printf \"deb https://oplab9.parqtec.unicamp.br/pub/repository/debian/ ./\" >> /etc/apt/sources.list" >> Dockerfile
-printf "\nRUN wget https://oplab9.parqtec.unicamp.br/pub/key/openpower-gpgkey-public.asc" >> Dockerfile
-printf "\nRUN apt-key add openpower-gpgkey-public.asc" >> Dockerfile
-printf "\nRUN apt-get update" >> Dockerfile
-printf "\nRUN apt-get -y install $GLIDE\nRUN $GLIDE --version" >> Dockerfile
-printf "\nRUN yes | glide init" >> Dockerfile
-printf "\nRUN glide update" >> Dockerfile
-printf "\nRUN glide install" >> Dockerfile
-{
-  docker build -t $GLIDE-test -f $LOCALPATH/$GLIDE/Dockerfile .
-} || {
-  printf "Error in DEB package, docker build process: $GLIDE\n" >> $TRAVIS_BUILD_DIR/log_error
-}
-{
-  docker run -d $GLIDE-test
-} || {
-  printf "Error in DEB package, docker run process: $GLIDE\n" >> $TRAVIS_BUILD_DIR/log_error
-}
-cd $LOCALPATH
-
-cd $MINIO
-printf "\nRUN apt-get -y install $MINIO\nRUN $MINIO --version" >> Dockerfile
-printf "\nRUN timeout --preserve-status 5 minio server /data" >> Dockerfile
-{
-  docker build -t $MINIO-test -f $LOCALPATH/$MINIO/Dockerfile .
-} || {
-  printf "Error in DEB package, docker build process: $MINIO\n" >> $TRAVIS_BUILD_DIR/log_error
-}
-{
-  docker run -d $MINIO-test
-} || {
-  printf "Error in DEB package, docker run process: $MINIO\n" >> $TRAVIS_BUILD_DIR/log_error
-}
-cd $LOCALPATH
-
-cd $RESTIC
-printf "\nRUN apt-get -y install $RESTIC\nRUN $RESTIC version" >> Dockerfile
-printf "\nRUN yes | restic -r restic-repo init" >> Dockerfile
-printf "\nRUN yes | restic -r restic-repo backup ." >> Dockerfile
-printf "\nRUN yes | restic -r restic-repo snapshots" >> Dockerfile
-{
-  docker build -t $RESTIC-test -f $LOCALPATH/$RESTIC/Dockerfile .
-} || {
-  printf "Error in DEB package, docker build process: $RESTIC\n" >> $TRAVIS_BUILD_DIR/log_error
-}
-{
-  docker run -d $RESTIC-test
-} || {
-  printf "Error in DEB package, docker run process: $RESTIC\n" >> $TRAVIS_BUILD_DIR/log_error
-}
-cd $LOCALPATH
-
-cd $TERRAFORM
-printf "\nRUN apt-get -y install $TERRAFORM\nRUN $TERRAFORM --version" >> Dockerfile
-printf "\nRUN mkdir terraform-test" >> Dockerfile
-printf "\nRUN cd terraform-test" >> Dockerfile
-printf "\nRUN printf \"\" >> main.tf" >> Dockerfile
-printf "\nRUN terraform init" >> Dockerfile
-printf "\nRUN terraform plan" >> Dockerfile
-{
-  docker build -t $TERRAFORM-test -f $LOCALPATH/$TERRAFORM/Dockerfile .
-} || {
-  printf "Error in DEB package, docker build process: $TERRAFORM\n" >> $TRAVIS_BUILD_DIR/log_error
-}
-{
-  docker run -d $TERRAFORM-test
-} || {
-  printf "Error in DEB package, docker run process: $TERRAFORM\n" >> $TRAVIS_BUILD_DIR/log_error
-}
-cd $LOCALPATH
-
-: << 'END'
-
-cd $MINIKUBE
-#printf "\nRUN apt -y install docker" >> Dockerfile
-#printf "\nRUN apt -y install sudo" >> Dockerfile
-#printf "\nRUN apt -y install conntrack" >> Dockerfile
-printf "\nRUN apt-get -y install $MINIKUBE\nRUN $MINIKUBE version" >> Dockerfile
-#printf "\nRUN minikube start --driver=virtualbox  --memory \"2048\" --cpus 2" >> Dockerfile
-{
-  docker build -t $MINIKUBE-test -f $LOCALPATH/$MINIKUBE/Dockerfile .
-} || {
-  printf "Error in DEB package, docker build process: $MINIKUBE\n" >> $TRAVIS_BUILD_DIR/log_error
-}
-{
-  docker run -d $MINIKUBE-test
-} || {
-  printf "Error in DEB package, docker run process: $MINIKUBE\n" >> $TRAVIS_BUILD_DIR/log_error
-}
-cd $LOCALPATH
-
-cd $MINIO_MC
-MINIO_MC_PACKAGE="mc"
-printf "\nRUN apt-get -y install $MINIO_MC_PACKAGE\nRUN $MINIO_MC_PACKAGE --version" >> Dockerfile
-printf "\nRUN timeout --preserve-status 5 mc" >> Dockerfile
-{
-  docker build -t $MINIO_MC-test -f $LOCALPATH/$MINIO_MC/Dockerfile .
-} || {
-  printf "Error in DEB package, docker build process: $MINIO_MC\n" >> $TRAVIS_BUILD_DIR/log_error
-}
-{
-  docker run -d $MINIO_MC-test
-} || {
-  printf "Error in DEB package, docker run process: $MINIO_MC\n" >> $TRAVIS_BUILD_DIR/log_error
-}
-cd $LOCALPATH
-
-: << 'END'
-
 cd $CONTAINERD
 printf "\nRUN apt-get -y install $CONTAINERD\nRUN $CONTAINERD --version" >> Dockerfile
 {
@@ -278,9 +141,22 @@ printf "\nRUN apt-get -y install $DOCKER_CE_CLI\nRUN docker --version" >> Docker
   printf "Error in DEB package, docker run process: $DOCKER_CE_CLI\n" >> $TRAVIS_BUILD_DIR/log_error
 }
 cd $LOCALPATH
-
 cd $GLIDE
+rm Dockerfile
+printf "FROM ubuntu:18.04\n" >> Dockerfile
+printf "\nENV container docker" >> Dockerfile
+printf "\nRUN apt-get update && apt-get install -y wget build-essential tar apt-utils" >> Dockerfile
+printf "\nCMD bash" >> Dockerfile
+printf "\nFROM golang:1.14" >> Dockerfile
+printf "\nWORKDIR /go/src/app" >> Dockerfile
+printf "\nRUN printf \"deb https://oplab9.parqtec.unicamp.br/pub/repository/debian/ ./\" >> /etc/apt/sources.list" >> Dockerfile
+printf "\nRUN wget https://oplab9.parqtec.unicamp.br/pub/key/openpower-gpgkey-public.asc" >> Dockerfile
+printf "\nRUN apt-key add openpower-gpgkey-public.asc" >> Dockerfile
+printf "\nRUN apt-get update" >> Dockerfile
 printf "\nRUN apt-get -y install $GLIDE\nRUN $GLIDE --version" >> Dockerfile
+printf "\nRUN yes | glide init" >> Dockerfile
+printf "\nRUN glide update" >> Dockerfile
+printf "\nRUN glide install" >> Dockerfile
 {
   docker build -t $GLIDE-test -f $LOCALPATH/$GLIDE/Dockerfile .
 } || {
@@ -322,8 +198,13 @@ printf "\nRUN if \[ \$\? \=\= 2 \]\; then exit 0\; else exit 1\; fi" >> Dockerfi
 }
 cd $LOCALPATH
 
+
 cd $MINIKUBE
+#printf "\nRUN apt -y install docker" >> Dockerfile
+#printf "\nRUN apt -y install sudo" >> Dockerfile
+#printf "\nRUN apt -y install conntrack" >> Dockerfile
 printf "\nRUN apt-get -y install $MINIKUBE\nRUN $MINIKUBE version" >> Dockerfile
+#printf "\nRUN minikube start --driver=virtualbox  --memory \"2048\" --cpus 2" >> Dockerfile
 {
   docker build -t $MINIKUBE-test -f $LOCALPATH/$MINIKUBE/Dockerfile .
 } || {
@@ -338,6 +219,7 @@ cd $LOCALPATH
 
 cd $MINIO
 printf "\nRUN apt-get -y install $MINIO\nRUN $MINIO --version" >> Dockerfile
+printf "\nRUN timeout --preserve-status 5 minio server /data" >> Dockerfile
 {
   docker build -t $MINIO-test -f $LOCALPATH/$MINIO/Dockerfile .
 } || {
@@ -351,7 +233,9 @@ printf "\nRUN apt-get -y install $MINIO\nRUN $MINIO --version" >> Dockerfile
 cd $LOCALPATH
 
 cd $MINIO_MC
+MINIO_MC_PACKAGE="mc"
 printf "\nRUN apt-get -y install $MINIO_MC_PACKAGE\nRUN $MINIO_MC_PACKAGE --version" >> Dockerfile
+#printf "\nRUN timeout --preserve-status 5 mc" >> Dockerfile
 {
   docker build -t $MINIO_MC-test -f $LOCALPATH/$MINIO_MC/Dockerfile .
 } || {
@@ -366,6 +250,9 @@ cd $LOCALPATH
 
 cd $RESTIC
 printf "\nRUN apt-get -y install $RESTIC\nRUN $RESTIC version" >> Dockerfile
+printf "\nRUN yes | restic -r restic-repo init" >> Dockerfile
+printf "\nRUN yes | restic -r restic-repo backup ." >> Dockerfile
+printf "\nRUN yes | restic -r restic-repo snapshots" >> Dockerfile
 {
   docker build -t $RESTIC-test -f $LOCALPATH/$RESTIC/Dockerfile .
 } || {
@@ -380,6 +267,11 @@ cd $LOCALPATH
 
 cd $TERRAFORM
 printf "\nRUN apt-get -y install $TERRAFORM\nRUN $TERRAFORM --version" >> Dockerfile
+printf "\nRUN mkdir terraform-test" >> Dockerfile
+printf "\nRUN cd terraform-test" >> Dockerfile
+printf "\nRUN printf \"\" >> main.tf" >> Dockerfile
+printf "\nRUN terraform init" >> Dockerfile
+printf "\nRUN terraform plan" >> Dockerfile
 {
   docker build -t $TERRAFORM-test -f $LOCALPATH/$TERRAFORM/Dockerfile .
 } || {
@@ -394,6 +286,10 @@ cd $LOCALPATH
 
 cd $RCLONE
 printf "\nRUN apt-get -y install $RCLONE\nRUN $RCLONE --version" >> Dockerfile
+printf "\nRUN mkdir rclone1" >> Dockerfile
+printf "\nRUN mkdir rclone2" >> Dockerfile
+printf "\nRUN rclone config create test local config_is_local true" >> Dockerfile
+printf "\nRUN rclone sync -i rclone1 rclone2" >> Dockerfile
 {
   docker build -t $RCLONE-test -f $LOCALPATH/$RCLONE/Dockerfile .
 } || {
