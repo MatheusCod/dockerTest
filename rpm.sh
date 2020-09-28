@@ -74,7 +74,7 @@ printf "\nVOLUME [ \"/sys/fs/cgroup\" ]" >> Dockerfile
 printf "\nCMD [\"/usr/sbin/init\"]" >> Dockerfile
 printf "\nFROM golang:1.14" >> Dockerfile
 printf "\nWORKDIR /go/src/app" >> Dockerfile
-printf "\nRUN printf " >> Dockerfile
+printf "\nRUN printf \"" >> Dockerfile
 printf "\\" >> Dockerfile
 printf "n" >> Dockerfile
 [Open-Power]\nname=Unicamp OpenPower Lab - \$basearch
