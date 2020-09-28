@@ -59,6 +59,8 @@ cp Dockerfile $MATCHBOX
 
 cd $GLIDE
 rm Dockerfile
+printf "\nFROM golang:1.14" >> Dockerfile
+printf "\nWORKDIR /go/src/app\n" >> Dockerfile
 printf "FROM centos:8" >> Dockerfile
 printf "\nENV container docker" >> Dockerfile
 printf "\nRUN (cd /lib/systemd/system/sysinit.target.wants/; for i in *; do [ \$i == \\" >> Dockerfile
@@ -92,8 +94,7 @@ printf "repo_gpgcheck=1" >> Dockerfile
 printf "\\" >> Dockerfile
 printf "n" >> Dockerfile
 printf "gpgkey=https://oplab9.parqtec.unicamp.br/pub/key/openpower-gpgkey-public.asc\" >> /etc/yum.repos.d/open-power.repo" >> Dockerfile
-printf "\nFROM golang:1.14" >> Dockerfile
-#printf "\nWORKDIR /go/src/app" >> Dockerfile
+
 printf "\nRUN yum -y update" >> Dockerfile
 #printf "\nRUN yum -y install wget" >> Dockerfile
 #printf "\nRUN wget https://golang.org/dl/go1.14.9.linux-ppc64le.tar.gz" >> Dockerfile
