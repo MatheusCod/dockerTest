@@ -72,8 +72,7 @@ printf "\nrm -f /lib/systemd/system/basic.target.wants/*;\\" >> Dockerfile
 printf "\nrm -f /lib/systemd/system/anaconda.target.wants/*;" >> Dockerfile
 printf "\nVOLUME [ \"/sys/fs/cgroup\" ]" >> Dockerfile
 printf "\nCMD [\"/usr/sbin/init\"]" >> Dockerfile
-printf "\nFROM golang:1.14" >> Dockerfile
-printf "\nWORKDIR /go/src/app" >> Dockerfile
+
 printf "\nRUN printf \"" >> Dockerfile
 printf "\\" >> Dockerfile
 printf "n" >> Dockerfile
@@ -96,6 +95,8 @@ printf "repo_gpgcheck=1" >> Dockerfile
 printf "\\" >> Dockerfile
 printf "n" >> Dockerfile
 printf "gpgkey=https://oplab9.parqtec.unicamp.br/pub/key/openpower-gpgkey-public.asc\" >> /etc/yum.repos.d/open-power.repo" >> Dockerfile
+printf "\nFROM golang:1.14" >> Dockerfile
+printf "\nWORKDIR /go/src/app" >> Dockerfile
 printf "\nRUN yum -y update" >> Dockerfile
 printf "\nRUN yum -y install $GLIDE\nRUN $GLIDE --version" >> Dockerfile
 printf "\nRUN yes | $GLIDE init" >> Dockerfile
