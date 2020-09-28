@@ -141,6 +141,7 @@ printf "\nRUN apt-get -y install $DOCKER_CE_CLI\nRUN docker --version" >> Docker
   printf "Error in DEB package, docker run process: $DOCKER_CE_CLI\n" >> $TRAVIS_BUILD_DIR/log_error
 }
 cd $LOCALPATH
+
 cd $GLIDE
 rm Dockerfile
 printf "FROM ubuntu:18.04\n" >> Dockerfile
@@ -185,7 +186,7 @@ cd $LOCALPATH
 
 cd $KIALI
 printf "\nRUN apt-get -y install $KIALI\nRUN $KIALI -alsologtostderr" >> Dockerfile
-printf "\nRUN if \[ \$\? \=\= 2 \]\; then exit 0\; else exit 1\; fi" >> Dockerfile
+#printf "\nRUN if \[ \$\? \=\= 2 \]\; then exit 0\; else exit 1\; fi" >> Dockerfile
 {
   docker build -t $KIALI-test -f $LOCALPATH/$KIALI/Dockerfile .
 } || {
