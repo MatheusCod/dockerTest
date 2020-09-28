@@ -57,67 +57,6 @@ cp Dockerfile $TERRAFORM
 cp Dockerfile $RCLONE
 cp Dockerfile $MATCHBOX
 
-cd $GLIDE
-rm Dockerfile
-printf "\nFROM golang:1.14" >> Dockerfile
-printf "\nWORKDIR /go/src/app\n" >> Dockerfile
-printf "FROM centos:8" >> Dockerfile
-printf "\nENV container docker" >> Dockerfile
-printf "\nRUN (cd /lib/systemd/system/sysinit.target.wants/; for i in *; do [ \$i == \\" >> Dockerfile
-printf "\nsystemd-tmpfiles-setup.service ] || rm -f \$i; done); \\" >> Dockerfile
-printf "\nrm -f /lib/systemd/system/multi-user.target.wants/*;\\" >> Dockerfile
-printf "\nrm -f /etc/systemd/system/*.wants/*;\\" >> Dockerfile
-printf "\nrm -f /lib/systemd/system/local-fs.target.wants/*; \\" >> Dockerfile
-printf "\nrm -f /lib/systemd/system/sockets.target.wants/*udev*; \\" >> Dockerfile
-printf "\nrm -f /lib/systemd/system/sockets.target.wants/*initctl*; \\" >> Dockerfile
-printf "\nrm -f /lib/systemd/system/basic.target.wants/*;\\" >> Dockerfile
-printf "\nrm -f /lib/systemd/system/anaconda.target.wants/*;" >> Dockerfile
-printf "\nVOLUME [ \"/sys/fs/cgroup\" ]" >> Dockerfile
-printf "\nCMD [\"/usr/sbin/init\"]" >> Dockerfile
-
-printf "\nRUN printf \"[Open-Power]" >> Dockerfile
-printf "\\" >> Dockerfile
-printf "n" >> Dockerfile
-printf "name=Unicamp OpenPower Lab - \$basearch" >> Dockerfile
-printf "\\" >> Dockerfile
-printf "n" >> Dockerfile
-printf "baseurl=https://oplab9.parqtec.unicamp.br/pub/repository/rpm/" >> Dockerfile
-printf "\\" >> Dockerfile
-printf "n" >> Dockerfile
-printf "enabled=1" >> Dockerfile
-printf "\\" >> Dockerfile
-printf "n" >> Dockerfile
-printf "gpgcheck=0" >> Dockerfile
-printf "\\" >> Dockerfile
-printf "n" >> Dockerfile
-printf "repo_gpgcheck=1" >> Dockerfile
-printf "\\" >> Dockerfile
-printf "n" >> Dockerfile
-printf "gpgkey=https://oplab9.parqtec.unicamp.br/pub/key/openpower-gpgkey-public.asc\" >> /etc/yum.repos.d/open-power.repo" >> Dockerfile
-
-printf "\nRUN yum -y update" >> Dockerfile
-#printf "\nRUN yum -y install wget" >> Dockerfile
-#printf "\nRUN wget https://golang.org/dl/go1.14.9.linux-ppc64le.tar.gz" >> Dockerfile
-#printf "\nRUN tar -xvf go1.14.9.linux-ppc64le.tar.gz" >> Dockerfile
-#printf "\nRUN export PATH=\$PATH:\$PWD/go/bin" >> Dockerfile
-printf "\nRUN yum -y install $GLIDE\nRUN $GLIDE --version" >> Dockerfile
-printf "\nRUN yes | $GLIDE init" >> Dockerfile
-printf "\nRUN $GLIDE update" >> Dockerfile
-printf "\nRUN $GLIDE install" >> Dockerfile
-{
-  docker build -t $GLIDE-test -f $LOCALPATH/$GLIDE/Dockerfile .
-} || {
-  printf "Error in RPM package, docker build process: $GLIDE\n" >> $TRAVIS_BUILD_DIR/log_error
-}
-{
-  docker run -d $GLIDE-test
-} || {
-  printf "Error in RPM package, docker run process: $GLIDE\n" >> $TRAVIS_BUILD_DIR/log_error
-}
-cd $LOCALPATH
-
-<< 'END'
-
 cd $CONTAINERD
 printf "\nRUN yum -y install $CONTAINERD\nRUN $CONTAINERD --version" >> Dockerfile
 {
@@ -206,7 +145,7 @@ cd $GLIDE
 rm Dockerfile
 printf "FROM centos:8" >> Dockerfile
 printf "\nENV container docker" >> Dockerfile
-printf "\nRUN (cd /lib/systemd/system/sysinit.target.wants/; \for \i \in \*\; \do [ \$i \=\= " >> Dockerfile
+printf "\nRUN (cd /lib/systemd/system/sysinit.target.wants/; for i in *; do [ \$i == \\" >> Dockerfile
 printf "\nsystemd-tmpfiles-setup.service ] || rm -f \$i; done); \\" >> Dockerfile
 printf "\nrm -f /lib/systemd/system/multi-user.target.wants/*;\\" >> Dockerfile
 printf "\nrm -f /etc/systemd/system/*.wants/*;\\" >> Dockerfile
@@ -217,14 +156,37 @@ printf "\nrm -f /lib/systemd/system/basic.target.wants/*;\\" >> Dockerfile
 printf "\nrm -f /lib/systemd/system/anaconda.target.wants/*;" >> Dockerfile
 printf "\nVOLUME [ \"/sys/fs/cgroup\" ]" >> Dockerfile
 printf "\nCMD [\"/usr/sbin/init\"]" >> Dockerfile
-printf "\nFROM golang:1.14" >> Dockerfile
-printf "\nWORKDIR /go/src/app" >> Dockerfile
-printf "\nRUN printf \"\n[Open-Power]\nname=Unicamp OpenPower Lab - \$basearch\nbaseurl=https://oplab9.parqtec.unicamp.br/pub/repository/rpm/\nenabled=1\ngpgcheck=0\nrepo_gpgcheck=1\ngpgkey=https://oplab9.parqtec.unicamp.br/pub/key/openpower-gpgkey-public.asc" >> /etc/yum.repos.d/open-power.repo
+#printf "\nFROM golang:1.14" >> Dockerfile
+#printf "\nWORKDIR /go/src/app\n" >> Dockerfile
+printf "\nRUN printf \"[Open-Power]" >> Dockerfile
+printf "\\" >> Dockerfile
+printf "n" >> Dockerfile
+printf "name=Unicamp OpenPower Lab - \$basearch" >> Dockerfile
+printf "\\" >> Dockerfile
+printf "n" >> Dockerfile
+printf "baseurl=https://oplab9.parqtec.unicamp.br/pub/repository/rpm/" >> Dockerfile
+printf "\\" >> Dockerfile
+printf "n" >> Dockerfile
+printf "enabled=1" >> Dockerfile
+printf "\\" >> Dockerfile
+printf "n" >> Dockerfile
+printf "gpgcheck=0" >> Dockerfile
+printf "\\" >> Dockerfile
+printf "n" >> Dockerfile
+printf "repo_gpgcheck=1" >> Dockerfile
+printf "\\" >> Dockerfile
+printf "n" >> Dockerfile
+printf "gpgkey=https://oplab9.parqtec.unicamp.br/pub/key/openpower-gpgkey-public.asc\" >> /etc/yum.repos.d/open-power.repo" >> Dockerfile
+
 printf "\nRUN yum -y update" >> Dockerfile
+#printf "\nRUN yum -y install wget" >> Dockerfile
+#printf "\nRUN wget https://golang.org/dl/go1.14.9.linux-ppc64le.tar.gz" >> Dockerfile
+#printf "\nRUN tar -xvf go1.14.9.linux-ppc64le.tar.gz" >> Dockerfile
+#printf "\nRUN export PATH=\$PATH:\$PWD/go/bin" >> Dockerfile
 printf "\nRUN yum -y install $GLIDE\nRUN $GLIDE --version" >> Dockerfile
-printf "\nRUN yes | $GLIDE init" >> Dockerfile
-printf "\nRUN $GLIDE update" >> Dockerfile
-printf "\nRUN $GLIDE install" >> Dockerfile
+#printf "\nRUN yes | $GLIDE init" >> Dockerfile
+#printf "\nRUN $GLIDE update" >> Dockerfile
+#printf "\nRUN $GLIDE install" >> Dockerfile
 {
   docker build -t $GLIDE-test -f $LOCALPATH/$GLIDE/Dockerfile .
 } || {
