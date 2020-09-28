@@ -251,9 +251,9 @@ cd $LOCALPATH
 
 cd $RESTIC
 printf "\nRUN apt-get -y install $RESTIC\nRUN $RESTIC version" >> Dockerfile
-printf "\nRUN yes | restic -r restic-repo init" >> Dockerfile
-printf "\nRUN yes | restic -r restic-repo backup ." >> Dockerfile
-printf "\nRUN yes | restic -r restic-repo snapshots" >> Dockerfile
+#printf "\nRUN yes | restic -r restic-repo init" >> Dockerfile
+#printf "\nRUN yes | restic -r restic-repo backup ." >> Dockerfile
+#printf "\nRUN yes | restic -r restic-repo snapshots" >> Dockerfile
 {
   docker build -t $RESTIC-test -f $LOCALPATH/$RESTIC/Dockerfile .
 } || {
