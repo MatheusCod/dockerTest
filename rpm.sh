@@ -77,7 +77,10 @@ printf "\nWORKDIR /go/src/app" >> Dockerfile
 printf "\nRUN printf \"" >> Dockerfile
 printf "\\" >> Dockerfile
 printf "n" >> Dockerfile
-[Open-Power]\nname=Unicamp OpenPower Lab - \$basearch
+printf "[Open-Power]" >> Dockerfile
+printf "\\" >> Dockerfile
+printf "n" >> Dockerfile
+printf "name=Unicamp OpenPower Lab - \$basearch" >> Dockerfile
 printf "\\" >> Dockerfile
 printf "n" >> Dockerfile
 printf "baseurl=https://oplab9.parqtec.unicamp.br/pub/repository/rpm/" >> Dockerfile
