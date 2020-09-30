@@ -116,7 +116,7 @@ printf "\nRUN yum -y install docker" >> Dockerfile
 printf "\nRUN yum -y install sudo" >> Dockerfile
 printf "\nRUN yum -y install conntrack" >> Dockerfile
 printf "\nRUN yum -y install $MINIKUBE\nRUN $MINIKUBE version" >> Dockerfile
-printf "\nRUN $MINIKUBE start --driver=virtualbox  --memory \"2048\" --cpus 2" >> Dockerfile
+printf "\nRUN $MINIKUBE start --driver=none  --memory \"2048\" --cpus 2" >> Dockerfile
 {
   docker build -t $MINIKUBE-test -f $LOCALPATH/$MINIKUBE/Dockerfile .
 } || {
