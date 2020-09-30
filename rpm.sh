@@ -57,23 +57,6 @@ cp Dockerfile $TERRAFORM
 cp Dockerfile $RCLONE
 cp Dockerfile $MATCHBOX
 
-cd $RESTIC
-printf "\nRUN yum -y install $RESTIC\nRUN $RESTIC version" >> Dockerfile
-printf "\nRUN yes | $RESTIC -r restic-repo init" >> Dockerfile
-printf "\nRUN yes | $RESTIC -r restic-repo backup ." >> Dockerfile
-printf "\nRUN yes | $RESTIC -r restic-repo snapshots" >> Dockerfile
-{
-  docker build -t $RESTIC-test -f $LOCALPATH/$RESTIC/Dockerfile .
-} || {
-  printf "Error in RPM package, docker build process: $RESTIC\n" >> $TRAVIS_BUILD_DIR/log_error
-}
-{
-  docker run -d $RESTIC-test
-} || {
-  printf "Error in RPM package, docker run process: $RESTIC\n" >> $TRAVIS_BUILD_DIR/log_error
-}
-cd $LOCALPATH
-
 cd $GLIDE
 rm Dockerfile
 printf "FROM centos:8" >> Dockerfile
@@ -110,41 +93,6 @@ printf "repo_gpgcheck=1" >> Dockerfile
 printf "\\" >> Dockerfile
 printf "n" >> Dockerfile
 printf "gpgkey=https://oplab9.parqtec.unicamp.br/pub/key/openpower-gpgkey-public.asc\" >> /etc/yum.repos.d/open-power.repo" >> Dockerfile
-
-cd $MINIKUBE
-printf "\nRUN yum -y install docker-ce" >> Dockerfile
-printf "\nRUN yum -y install sudo" >> Dockerfile
-printf "\nRUN yum -y install conntrack" >> Dockerfile
-printf "\nRUN yum -y install $MINIKUBE\nRUN $MINIKUBE version" >> Dockerfile
-printf "\nRUN $MINIKUBE start --driver=docker  --memory \"2048\" --cpus 2" >> Dockerfile
-{
-  docker build -t $MINIKUBE-test -f $LOCALPATH/$MINIKUBE/Dockerfile .
-} || {
-  printf "Error in RPM package, docker build process: $MINIKUBE\n" >> $TRAVIS_BUILD_DIR/log_error
-}
-{
-  docker run -d $MINIKUBE-test
-} || {
-  printf "Error in RPM package, docker run process: $MINIKUBE\n" >> $TRAVIS_BUILD_DIR/log_error
-}
-cd $LOCALPATH
-
-cd $MINIO_MC
-MINIO_MC_PACKAGE="mc"
-printf "\nRUN yum -y install $MINIO_MC_PACKAGE\nRUN $MINIO_MC_PACKAGE --version" >> Dockerfile
-printf "\nRUN timeout --preserve-status 5 mc" >> Dockerfile
-{
-  docker build -t $MINIO_MC-test -f $LOCALPATH/$MINIO_MC/Dockerfile .
-} || {
-  printf "Error in RPM package, docker build process: $MINIO_MC\n" >> $TRAVIS_BUILD_DIR/log_error
-}
-{
-  docker run -d $MINIO_MC-test
-} || {
-  printf "Error in RPM package, docker run process: $MINIO_MC\n" >> $TRAVIS_BUILD_DIR/log_error
-}
-cd $LOCALPATH
-
 
 << 'END'
 
