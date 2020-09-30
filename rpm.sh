@@ -320,11 +320,11 @@ printf "\nRUN yum -y install $KIALI" >> Dockerfile
 cd $LOCALPATH
 
 cd $MINIKUBE
-#printf "\nRUN yum -y install docker" >> Dockerfile
+#printf "\nRUN yum -y install docker-ce" >> Dockerfile
 #printf "\nRUN yum -y install sudo" >> Dockerfile
 #printf "\nRUN yum -y install conntrack" >> Dockerfile
 printf "\nRUN yum -y install $MINIKUBE\nRUN $MINIKUBE version" >> Dockerfile
-#printf "\nRUN $MINIKUBE start --driver=virtualbox  --memory \"2048\" --cpus 2" >> Dockerfile
+#printf "\nRUN $MINIKUBE start --driver=docker  --memory \"2048\" --cpus 2" >> Dockerfile
 {
   docker build -t $MINIKUBE-test -f $LOCALPATH/$MINIKUBE/Dockerfile .
 } || {
@@ -354,8 +354,8 @@ cd $LOCALPATH
 
 cd $MINIO_MC
 MINIO_MC_PACKAGE="mc"
-#printf "\nRUN timeout --preserve-status 5 mc" >> Dockerfile
 printf "\nRUN yum -y install $MINIO_MC_PACKAGE\nRUN $MINIO_MC_PACKAGE --version" >> Dockerfile
+#printf "\nRUN timeout --preserve-status 5 mc" >> Dockerfile
 {
   docker build -t $MINIO_MC-test -f $LOCALPATH/$MINIO_MC/Dockerfile .
 } || {
