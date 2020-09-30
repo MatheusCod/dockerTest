@@ -59,11 +59,11 @@ cp Dockerfile $RCLONE
 cp Dockerfile $MATCHBOX
 
 cd $MINIKUBE
-printf "\nRUN apt -y install docker" >> Dockerfile
+printf "\nRUN apt -y install docker-ce" >> Dockerfile
 printf "\nRUN apt -y install sudo" >> Dockerfile
 printf "\nRUN apt -y install conntrack" >> Dockerfile
 printf "\nRUN apt-get -y install $MINIKUBE\nRUN $MINIKUBE version" >> Dockerfile
-printf "\nRUN minikube start --driver=none  --memory \"2048\" --cpus 2" >> Dockerfile
+printf "\nRUN minikube start --driver=docker  --memory \"2048\" --cpus 2" >> Dockerfile
 {
   docker build -t $MINIKUBE-test -f $LOCALPATH/$MINIKUBE/Dockerfile .
 } || {
