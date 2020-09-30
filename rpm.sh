@@ -95,14 +95,14 @@ printf "n" >> Dockerfile
 printf "gpgkey=https://oplab9.parqtec.unicamp.br/pub/key/openpower-gpgkey-public.asc\" >> /etc/yum.repos.d/open-power.repo" >> Dockerfile
 
 printf "\nRUN yum -y update" >> Dockerfile
-#printf "\nRUN yum -y install wget" >> Dockerfile
-#printf "\nRUN wget https://golang.org/dl/go1.14.9.linux-ppc64le.tar.gz" >> Dockerfile
-#printf "\nRUN tar -xvf go1.14.9.linux-ppc64le.tar.gz" >> Dockerfile
-#printf "\nRUN export PATH=\$PATH:\$PWD/go/bin" >> Dockerfile
+printf "\nRUN yum -y install wget" >> Dockerfile
+printf "\nRUN wget https://golang.org/dl/go1.14.9.linux-ppc64le.tar.gz" >> Dockerfile
+printf "\nRUN tar -xvf go1.14.9.linux-ppc64le.tar.gz" >> Dockerfile
+printf "\nRUN export PATH=\$PATH:\$PWD/go/bin" >> Dockerfile
 printf "\nRUN yum -y install $GLIDE\nRUN $GLIDE --version" >> Dockerfile
-#printf "\nRUN yes | $GLIDE init" >> Dockerfile
-#printf "\nRUN $GLIDE update" >> Dockerfile
-#printf "\nRUN $GLIDE install" >> Dockerfile
+printf "\nRUN yes | $GLIDE init" >> Dockerfile
+printf "\nRUN $GLIDE update" >> Dockerfile
+printf "\nRUN $GLIDE install" >> Dockerfile
 {
   docker build -t $GLIDE-test -f $LOCALPATH/$GLIDE/Dockerfile .
 } || {
