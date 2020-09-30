@@ -60,9 +60,9 @@ cp Dockerfile $MATCHBOX
 
 cd $RESTIC
 printf "\nRUN apt-get -y install $RESTIC\nRUN $RESTIC version" >> Dockerfile
-printf "\nRUN yes | restic -r restic-repo init" >> Dockerfile
-printf "\nRUN yes | restic -r restic-repo backup ." >> Dockerfile
-printf "\nRUN yes | restic -r restic-repo snapshots" >> Dockerfile
+#printf "\nRUN yes | restic -r restic-repo init" >> Dockerfile
+#printf "\nRUN yes | restic -r restic-repo backup ." >> Dockerfile
+#printf "\nRUN yes | restic -r restic-repo snapshots" >> Dockerfile
 {
   docker build -t $RESTIC-test -f $LOCALPATH/$RESTIC/Dockerfile .
 } || {
@@ -108,6 +108,9 @@ printf "\nRUN apt-get -y install $MINIO_MC_PACKAGE\nRUN $MINIO_MC_PACKAGE --vers
   printf "Error in DEB package, docker run process: $MINIO_MC\n" >> $TRAVIS_BUILD_DIR/log_error
 }
 cd $LOCALPATH
+
+
+
 
 << 'END'
 
