@@ -60,9 +60,9 @@ cp Dockerfile $MATCHBOX
 
 cd $RESTIC
 printf "\nRUN apt-get -y install $RESTIC\nRUN $RESTIC version" >> Dockerfile
-#printf "\nRUN yes | restic -r restic-repo init" >> Dockerfile
-#printf "\nRUN yes | restic -r restic-repo backup ." >> Dockerfile
-#printf "\nRUN yes | restic -r restic-repo snapshots" >> Dockerfile
+printf "\nRUN yes | restic -r restic-repo init" >> Dockerfile
+printf "\nRUN yes | restic -r restic-repo backup ." >> Dockerfile
+printf "\nRUN yes | restic -r restic-repo snapshots" >> Dockerfile
 {
   docker build -t $RESTIC-test -f $LOCALPATH/$RESTIC/Dockerfile .
 } || {
@@ -76,11 +76,11 @@ printf "\nRUN apt-get -y install $RESTIC\nRUN $RESTIC version" >> Dockerfile
 cd $LOCALPATH
 
 cd $MINIKUBE
-#printf "\nRUN apt -y install docker" >> Dockerfile
-#printf "\nRUN apt -y install sudo" >> Dockerfile
-#printf "\nRUN apt -y install conntrack" >> Dockerfile
+printf "\nRUN apt -y install docker" >> Dockerfile
+printf "\nRUN apt -y install sudo" >> Dockerfile
+printf "\nRUN apt -y install conntrack" >> Dockerfile
 printf "\nRUN apt-get -y install $MINIKUBE\nRUN $MINIKUBE version" >> Dockerfile
-#printf "\nRUN minikube start --driver=virtualbox  --memory \"2048\" --cpus 2" >> Dockerfile
+printf "\nRUN minikube start --driver=virtualbox  --memory \"2048\" --cpus 2" >> Dockerfile
 {
   docker build -t $MINIKUBE-test -f $LOCALPATH/$MINIKUBE/Dockerfile .
 } || {
