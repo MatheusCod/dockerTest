@@ -80,7 +80,7 @@ printf "\nRUN apt -y install docker" >> Dockerfile
 printf "\nRUN apt -y install sudo" >> Dockerfile
 printf "\nRUN apt -y install conntrack" >> Dockerfile
 printf "\nRUN apt-get -y install $MINIKUBE\nRUN $MINIKUBE version" >> Dockerfile
-printf "\nRUN minikube start --driver=virtualbox  --memory \"2048\" --cpus 2" >> Dockerfile
+printf "\nRUN minikube start --driver=none  --memory \"2048\" --cpus 2" >> Dockerfile
 {
   docker build -t $MINIKUBE-test -f $LOCALPATH/$MINIKUBE/Dockerfile .
 } || {
@@ -96,7 +96,7 @@ cd $LOCALPATH
 cd $MINIO_MC
 MINIO_MC_PACKAGE="mc"
 printf "\nRUN apt-get -y install $MINIO_MC_PACKAGE\nRUN $MINIO_MC_PACKAGE --version" >> Dockerfile
-#printf "\nRUN timeout --preserve-status 5 mc" >> Dockerfile
+printf "\nRUN timeout --preserve-status 5 mc" >> Dockerfile
 {
   docker build -t $MINIO_MC-test -f $LOCALPATH/$MINIO_MC/Dockerfile .
 } || {
