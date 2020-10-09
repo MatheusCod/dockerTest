@@ -101,8 +101,8 @@ printf "\nRUN tar -xvf go1.14.9.linux-ppc64le.tar.gz" >> Dockerfile
 printf "\nRUN mv go /root/go" >> Dockerfile
 printf "\nENV PATH=\"/root/go/bin:\${PATH}\"" >> Dockerfile
 printf "\nRUN yum -y install $GLIDE\nRUN $GLIDE --version" >> Dockerfile
-printf "\nRUN mkdir $GLIDE_test" >> Dockerfile
-printf "\nRUN cd $GLIDE_test && yes | $GLIDE init && $GLIDE update && $GLIDE install" >> Dockerfile
+printf "\nRUN mkdir $GLIDE\_test" >> Dockerfile
+printf "\nRUN cd $GLIDE\_test && yes | $GLIDE init && $GLIDE update && $GLIDE install" >> Dockerfile
 #printf "\nRUN $GLIDE update" >> Dockerfile
 #printf "\nRUN $GLIDE install" >> Dockerfile
 {
