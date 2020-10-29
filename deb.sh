@@ -63,7 +63,7 @@ printf "\nRUN apt -y install docker-ce" >> Dockerfile
 printf "\nRUN apt -y install sudo" >> Dockerfile
 printf "\nRUN apt -y install conntrack" >> Dockerfile
 printf "\nRUN apt-get -y install $MINIKUBE\nRUN $MINIKUBE version" >> Dockerfile
-printf "ENV NO_PROXY=\"localhost,127.0.0.1,10.96.0.0/12,192.168.99.0/24,192.168.39.0/24\"" >> Dockerfile
+printf "\nENV NO_PROXY=\"localhost,127.0.0.1,10.96.0.0/12,192.168.99.0/24,192.168.39.0/24\"" >> Dockerfile
 #printf "\nRUN minikube start --driver=none  --memory \"2048\" --cpus 2" >> Dockerfile
 printf "\nRUN minikube start --driver=none" >> Dockerfile
 {
