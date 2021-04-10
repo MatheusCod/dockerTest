@@ -1,0 +1,39 @@
+Format: 1.8
+Date: Sat, 10 Apr 2021 21:57:23 +0000
+Source: docker-ce
+Binary: docker-ce docker-ce-cli docker-ce-rootless-extras
+Architecture: source ppc64el
+Version: 5:20.10.5~3-0~ubuntu-focal
+Distribution: focal
+Urgency: low
+Maintainer: Docker <support@docker.com>
+Changed-By: Docker <support@docker.com>
+Description:
+ docker-ce  - Docker: the open-source application container engine
+ docker-ce-cli - Docker CLI: the open-source application container engine
+ docker-ce-rootless-extras - Rootless support for Docker.
+Changes:
+ docker-ce (5:20.10.5~3-0~ubuntu-focal) focal; urgency=low
+ .
+   * Version: 20.10.5
+Checksums-Sha1:
+ 59abcc640af0642d071d6b4c0e23a97174ebad31 1177 docker-ce_20.10.5~3-0~ubuntu-focal.dsc
+ 6d3a680b84438a3daef42fdb488de5fb41e041fe 18741103 docker-ce_20.10.5~3-0~ubuntu-focal.tar.gz
+ 75b29293c1d9ff981945d07c6e66debaa9af10d8 33527596 docker-ce-cli_20.10.5~3-0~ubuntu-focal_ppc64el.deb
+ 3b0c0dc120cc9cc4e241148f8d0ffb5a500c9b74 8233528 docker-ce-rootless-extras_20.10.5~3-0~ubuntu-focal_ppc64el.deb
+ 886dd3f214a2a8add41bcbf251a01a7b5880b45c 8630 docker-ce_20.10.5~3-0~ubuntu-focal_ppc64el.buildinfo
+ f4bbab3ad56eeebef0b239ed78ed8226e90ab109 16614148 docker-ce_20.10.5~3-0~ubuntu-focal_ppc64el.deb
+Checksums-Sha256:
+ b18ac2daf59f0c63c1d151762ddb44a8b997b5d2c58dab53b3fe7db932324ef7 1177 docker-ce_20.10.5~3-0~ubuntu-focal.dsc
+ 06cb215af36d85b58c1353adffab2599a7fbf25c26b7a14b804acfc1d482acf2 18741103 docker-ce_20.10.5~3-0~ubuntu-focal.tar.gz
+ 45819a58f92f055c0df81156dc1a5031454654804e8dbaae5a2b742bd297a365 33527596 docker-ce-cli_20.10.5~3-0~ubuntu-focal_ppc64el.deb
+ 4233c6cfde1894933d70b92df33246929c07de160fe96acf8288ab12bf0f8717 8233528 docker-ce-rootless-extras_20.10.5~3-0~ubuntu-focal_ppc64el.deb
+ fa3de01d0e21b998cd0b0cfe6fdf238038955a08ee013aab26668a605002f378 8630 docker-ce_20.10.5~3-0~ubuntu-focal_ppc64el.buildinfo
+ 7fecd8e3fe2384518509451708df9ba64a0c36410bf722cf08951d8c65f6c334 16614148 docker-ce_20.10.5~3-0~ubuntu-focal_ppc64el.deb
+Files:
+ b1e76c80017f1473607e56b5250cd811 1177 admin optional docker-ce_20.10.5~3-0~ubuntu-focal.dsc
+ dc28b8443d805bebac2e2693c68d9e6d 18741103 admin optional docker-ce_20.10.5~3-0~ubuntu-focal.tar.gz
+ 4980ec1d27acae2030ea42043bfbf103 33527596 admin optional docker-ce-cli_20.10.5~3-0~ubuntu-focal_ppc64el.deb
+ 90f3746763386e2cf973c9b3977ed390 8233528 admin optional docker-ce-rootless-extras_20.10.5~3-0~ubuntu-focal_ppc64el.deb
+ 0577ad8958e0085611595bc5163ec563 8630 admin optional docker-ce_20.10.5~3-0~ubuntu-focal_ppc64el.buildinfo
+ 3f9acf3e80501ba859d90652ab2cd601 16614148 admin optional docker-ce_20.10.5~3-0~ubuntu-focal_ppc64el.deb
