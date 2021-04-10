@@ -1,0 +1,40 @@
+Format: 1.8
+Date: Sat, 10 Apr 2021 23:03:39 +0000
+Source: docker-ce
+Binary: docker-ce docker-ce-cli docker-ce-rootless-extras docker-scan-plugin
+Architecture: source ppc64el
+Version: 5:20.10.5~3-0~ubuntu-bionic
+Distribution: bionic
+Urgency: low
+Maintainer: Docker <support@docker.com>
+Changed-By: Docker <support@docker.com>
+Description:
+ docker-ce  - Docker: the open-source application container engine
+ docker-ce-cli - Docker CLI: the open-source application container engine
+ docker-ce-rootless-extras - Rootless support for Docker.
+ docker-scan-plugin - Docker scan cli plugin.
+Changes:
+ docker-ce (5:20.10.5~3-0~ubuntu-bionic) bionic; urgency=low
+ .
+   * Version: 20.10.5
+Checksums-Sha1:
+ 45f1754be54b4c91edd650c36bf04c2dd53594ac 1181 docker-ce_20.10.5~3-0~ubuntu-bionic.dsc
+ 1e7842b9ef14f19695fca3d88e687b7d35e1cd0c 18741864 docker-ce_20.10.5~3-0~ubuntu-bionic.tar.gz
+ 8fb46862dd7954cbde3d36091dda30d576d36e85 33527500 docker-ce-cli_20.10.5~3-0~ubuntu-bionic_ppc64el.deb
+ e8879cb206fbb27d288484763c05d1b9f93191d9 8227560 docker-ce-rootless-extras_20.10.5~3-0~ubuntu-bionic_ppc64el.deb
+ cbaa2d168edd2001277db494e26ac155da849ff5 8613 docker-ce_20.10.5~3-0~ubuntu-bionic_ppc64el.buildinfo
+ 0c7f1a1ec5fd2198be012b04d8075d83c6b98aa4 16651108 docker-ce_20.10.5~3-0~ubuntu-bionic_ppc64el.deb
+Checksums-Sha256:
+ 6ce7092735e01ee960853d097a23c9c1e1dee45954d10ff4ad79b7613ae8b9d9 1181 docker-ce_20.10.5~3-0~ubuntu-bionic.dsc
+ 793a88d69ccb783fe492d9f4f148f642b8605cc275ba1375537e5ae549c5893f 18741864 docker-ce_20.10.5~3-0~ubuntu-bionic.tar.gz
+ d0b54ee898eee517498c3361af032f13bb288f017486dc052bc4091cf86da71c 33527500 docker-ce-cli_20.10.5~3-0~ubuntu-bionic_ppc64el.deb
+ 40aa4dc34b1a349e1e60e8dd40bd047e8fd76a13c5b6ef5b5bcd787641eed18c 8227560 docker-ce-rootless-extras_20.10.5~3-0~ubuntu-bionic_ppc64el.deb
+ af3e4745ec62b84170ca53883835f178d4854a25dc7beb99fbeb6279b2d7e61e 8613 docker-ce_20.10.5~3-0~ubuntu-bionic_ppc64el.buildinfo
+ 1de426669a58d22ceed26d9852314d03c641846802512306e8237685429b6df3 16651108 docker-ce_20.10.5~3-0~ubuntu-bionic_ppc64el.deb
+Files:
+ a0a04fdf08c667313751704b82a03540 1181 admin optional docker-ce_20.10.5~3-0~ubuntu-bionic.dsc
+ 63938e8193efe0aeb4c72b68aa4bf1cf 18741864 admin optional docker-ce_20.10.5~3-0~ubuntu-bionic.tar.gz
+ 4eb64c939d8e1bc7b5916963879ec43e 33527500 admin optional docker-ce-cli_20.10.5~3-0~ubuntu-bionic_ppc64el.deb
+ afb81bbad0a2226c2bcad336998dbcc9 8227560 admin optional docker-ce-rootless-extras_20.10.5~3-0~ubuntu-bionic_ppc64el.deb
+ 947f05e351d7f6356d809ae37317c164 8613 admin optional docker-ce_20.10.5~3-0~ubuntu-bionic_ppc64el.buildinfo
+ ed416106b1d9db6e61bfed7ee7853613 16651108 admin optional docker-ce_20.10.5~3-0~ubuntu-bionic_ppc64el.deb
