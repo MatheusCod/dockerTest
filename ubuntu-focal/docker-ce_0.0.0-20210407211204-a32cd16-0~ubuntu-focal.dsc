@@ -15,8 +15,8 @@ Package-List:
  docker-ce-rootless-extras deb admin optional arch=linux-any
  docker-scan-plugin deb admin optional arch=linux-amd64
 Checksums-Sha1:
- 38d69b796f5d732099364f4355ffa3c130543351 18768238 docker-ce_0.0.0-20210407211204-a32cd16-0~ubuntu-focal.tar.gz
+ 147574285946560c8634c1aa02594d0ee1ac5e2f 18768115 docker-ce_0.0.0-20210407211204-a32cd16-0~ubuntu-focal.tar.gz
 Checksums-Sha256:
- 89aa1c74f0e0b66f61b8f47692096dbee0e75fd453b263f605adce48a242e046 18768238 docker-ce_0.0.0-20210407211204-a32cd16-0~ubuntu-focal.tar.gz
+ f89a804729de5ac7cb62abfde778573a533a5b751db3dd9944f89bca1908bd95 18768115 docker-ce_0.0.0-20210407211204-a32cd16-0~ubuntu-focal.tar.gz
 Files:
- 0419bdb718047a60ff9d96c86786ecbf 18768238 docker-ce_0.0.0-20210407211204-a32cd16-0~ubuntu-focal.tar.gz
+ 25f1f310a8dcd1451fddefe97cf259ae 18768115 docker-ce_0.0.0-20210407211204-a32cd16-0~ubuntu-focal.tar.gz
